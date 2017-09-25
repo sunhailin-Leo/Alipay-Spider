@@ -19,11 +19,13 @@ Python库列表：
 ---
 
 <h3 id="HowToInstall">安装方式</h3>
-```shell
+
+```
     pip install BeautifulSoup4
     pip install selenium
     pip install requests
 ```
+
 Ps:此外还需要安装PhantomJs，具体配置请看官网文档
 [PhantomJs官网]http://phantomjs.org/
 
