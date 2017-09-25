@@ -167,12 +167,12 @@ class AlipayBill(object):
             #         self.info_list.append(dict(time=time, amount=amount, code=code))
             #     except Exception as err:
             #         print(err)
-            #         self.info_list.append({'error': '出现错误,请加站长支付宝好友获取充值码'})
+            #         self.info_list.append({'error': '出现错误'})
             #         # 关闭浏览器
             #         self.sel.close()
 
         else:
-            self.info_list.append({'error': '出现错误,请加站长支付宝好友获取充值码'})
+            self.info_list.append({'error': '出现错误'})
 
         return self.info_list
 
