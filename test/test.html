@@ -1,0 +1,4951 @@
+<!DOCTYPE html>
+<html class="">
+<head>
+<meta charset="GBK" />
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<meta name="renderer" content="webkit" />
+<meta name="force-rendering" content="webkit" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>我的账单 - 支付宝</title>
+
+
+<link rel="icon" href="https://i.alipayobjects.com/common/favicon/favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="https://i.alipayobjects.com/common/favicon/favicon.ico" type="image/x-icon" /><link href="https://a.alipayobjects.com" rel="dns-prefetch" />
+<link href="https://app.alipay.com" rel="dns-prefetch" />
+<link href="https://my.alipay.com" rel="dns-prefetch" />
+<link href="https://lab.alipay.com" rel="dns-prefetch" />
+<link href="https://cashier.alipay.com" rel="dns-prefetch" />
+<link href="https://financeprod.alipay.com" rel="dns-prefetch" />
+<link href="https://shenghuo.alipay.com" rel="dns-prefetch" />
+
+
+<!-- uitpl:/component/trackerTime.vm -->
+    <!-- FD:106:alipay/tracker/iconfont.vm:START --><style>
+@font-face {
+    font-family: "rei";
+    src: url("https://i.alipayobjects.com/common/fonts/rei.eot?20150616"); /* IE9 */
+    src: url("https://i.alipayobjects.com/common/fonts/rei.eot?20150616#iefix") format("embedded-opentype"), /* IE6-IE8 */
+    url("https://i.alipayobjects.com/common/fonts/rei.woff?20150616") format("woff"), /* chrome 6+、firefox 3.6+、Safari5.1+、Opera 11+ */
+    url("https://i.alipayobjects.com/common/fonts/rei.ttf?20150616")  format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+ */
+    url("https://i.alipayobjects.com/common/fonts/rei.svg?20150616#rei") format("svg"); /* iOS 4.1- */
+}
+.iconfont {
+    font-family:"rei";
+    font-style: normal;
+    font-weight: normal;
+    cursor: default;
+    -webkit-font-smoothing: antialiased;
+}
+</style>
+<!-- FD:106:alipay/tracker/iconfont.vm:END -->
+<script type="text/javascript">
+  window._to = { start: new Date() };
+</script>
+
+<!-- FD:106:alipay/tracker/monitor.vm:START --><!-- FD:106:alipay/tracker/sai_seer.vm:START --><script type="text/javascript">
+
+!function(n){function o(r){if(t[r])return t[r].exports;var i=t[r]={exports:{},id:r,loaded:!1};return n[r].call(i.exports,i,i.exports,o),i.loaded=!0,i.exports}var t={};return o.m=n,o.c=t,o.p="",o(0)}([function(n,o){"use strict";window.Sai={log:function(){},error:function(){},lost:function(){},off:function(){},on:function(){},_DATAS:[],_EVENTS:[]}}]);
+
+</script>
+<!-- FD:106:alipay/tracker/sai_seer.vm:END --><!-- FD:106:alipay/tracker/monitor.vm:END -->
+<!-- FD:106:alipay/tracker/seajs.vm:START -->
+
+
+<!-- monitor 防错代码 -->
+<script>
+(function(win){
+  if(!win.monitor){win.monitor = {};}
+
+  var METHODS = ["lost", "log", "error", "on", "off"];
+
+  for(var i=0,method,l=METHODS.length; i<l; i++){
+    method = METHODS[i];
+    if("function" !== typeof win.monitor[method]){
+      win.monitor[method] = function(){};
+    }
+  }
+})(window);
+</script>
+
+<!-- seajs以及插件 -->
+<script charset="utf-8" crossorigin="anonymous" id="seajsnode" onerror="window.monitor && monitor.lost && monitor.lost(this.src)" src="https://a.alipayobjects.com:443/??seajs/seajs/2.2.3/sea.js,seajs/seajs-combo/1.0.0/seajs-combo.js,seajs/seajs-style/1.0.2/seajs-style.js,seajs/seajs-log/1.0.0/seajs-log.js,jquery/jquery/1.7.2/jquery.js,gallery/json/1.0.3/json.js,alipay-request/3.0.3/index.js"></script>
+
+<!-- seajs config 配置 -->
+<script>
+seajs.config({
+  alias: {
+    '$': 'jquery/jquery/1.7.2/jquery',
+    '$-debug': 'jquery/jquery/1.7.2/jquery',
+    'jquery': 'jquery/jquery/1.7.2/jquery',
+    'jquery-debug': 'jquery/jquery/1.7.2/jquery-debug',
+    'seajs-debug': 'seajs/seajs-debug/1.1.1/seajs-debug'
+  },
+  crossorigin: function(uri){
+
+    function typeOf(type){
+	  return function(object){
+	    return Object.prototype.toString.call(object) === '[object ' + type + ']';
+	  }
+	}
+	var isString = typeOf("String");
+	var isRegExp = typeOf("RegExp");
+
+	var whitelist = [];
+
+  whitelist.push('https://a.alipayobjects.com/');
+
+	for (var i=0, rule, l=whitelist.length; i<l; i++){
+	  rule = whitelist[i];
+	  if (
+	    (isString(rule) && uri.indexOf(rule) === 0) ||
+	    (isRegExp(rule) && rule.test(uri))
+		) {
+
+	    return "anonymous";
+	  }
+	}
+  },
+  vars: {
+    locale: 'zh-cn'
+  }
+});
+</script>
+
+<!-- 兼容原有的 plugin-i18n 写法 -->
+<!-- https://github.com/seajs/seajs/blob/1.3.1/src/plugins/plugin-i18n.js -->
+<script>
+seajs.pluginSDK = seajs.pluginSDK || {
+  Module: {
+    _resolve: function() {}
+  },
+  config: {
+    locale: ''
+  }
+};
+// 干掉载入 plugin-i18n.js，避免 404
+seajs.config({
+  map: [
+	[/^.*\/seajs\/plugin-i18n\.js$/, ''],
+	[/^.*\i18n!lang\.js$/, '']
+  ]
+});
+</script>
+
+<!-- 路由旧 ID，解决 seajs.use('select/x.x.x/select') 的历史遗留问题 -->
+<script>
+(function(){
+
+var JQ = '/jquery/1.7.2/jquery.js';
+seajs.cache['https://a.alipayobjects.com:443/gallery' + JQ] = seajs.cache['https://a.alipayobjects.com:443/jquery' + JQ];
+
+var GALLERY_MODULES = [
+  'async','backbone','coffee','cookie','es5-safe','handlebars','iscroll',
+  'jasmine','jasmine-jquery','jquery','jquery-color','json','keymaster',
+  'labjs','less','marked','moment','mustache','querystring','raphael',
+  'socketio','store','swfobject','underscore','zepto','ztree'
+];
+
+var ARALE_MODULES = [
+  'autocomplete','base','calendar','class','cookie','dialog','easing',
+  'events','iframe-uploader','iframe-shim','messenger','overlay','popup',
+  'position','select','switchable','tip','validator','widget'
+];
+
+var util = {};
+util.indexOf = Array.prototype.indexOf ?
+  function(arr, item) {
+    return arr.indexOf(item);
+  } :
+  function(arr, item) {
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i] === item) {
+        return i;
+      }
+    }
+    return -1;
+  };
+util.map = Array.prototype.map ?
+  function(arr, fn) {
+    return arr.map(fn);
+  } :
+  function(arr, fn) {
+    var ret = [];
+	for (var i = 0; i < arr.length; i++) {
+        ret.push(fn(arr[i], i, arr));
+    }
+    return ret;
+  };
+
+function contains(arr, item) {
+  return util.indexOf(arr, item) > -1
+}
+
+function map(id) {
+  id = id.replace('#', '');
+
+  var parts = id.split('/');
+  var len = parts.length;
+  var root, name;
+
+  // id = root/name/x.y.z/name
+  if (len === 4) {
+    root = parts[0];
+    name = parts[1];
+
+    // gallery 或 alipay 开头的没有问题
+    if (root === 'alipay' || root === 'gallery') {
+      return id;
+    }
+
+    // arale 开头的
+    if (root === 'arale') {
+      // 处理 arale/handlebars 的情况
+      if (contains(GALLERY_MODULES, name)) {
+        return id.replace('arale/', 'gallery/');
+      } else {
+        return id;
+      }
+    }
+  }
+  // id = name/x.y.z/name
+  else if (len === 3) {
+    name = parts[0]
+
+    // 开头在 GALLERY_MODULES 或 ARALE_MODULES
+    if (contains(GALLERY_MODULES, name)) {
+      return 'gallery/' + id;
+    } else if (contains(ARALE_MODULES, name)) {
+      return 'arale/' + id;
+    }
+  }
+
+  return id;
+}
+
+var _use = seajs.use;
+
+seajs.use = function(ids, callback) {
+  if (typeof ids === 'string') {
+    ids = [ids];
+  }
+
+  ids = util.map(ids, function(id) {
+    return map(id);
+  });
+
+  return _use(ids, callback);
+}
+
+})();
+</script>
+<!-- FD:106:alipay/tracker/seajs.vm:END -->
+<!-- FD:106:alipay/tracker/tracker_time.vm:START --><!-- FD:106:alipay/tracker/tracker_time.vm:784:tracker_time.schema:全站 tracker 开关:START --><script charset="utf-8" crossorigin="crossorigin" src="https://a.alipayobjects.com/static/ar/alipay.light.base-1.8.js"></script>
+
+
+<script type="text/javascript">
+if (!window._to) {
+  window._to = { start: new Date() };
+}
+</script>
+
+<script charset="utf-8" src="https://as.alipayobjects.com/??g/component/tracker/2.3.2/index.js,g/component/smartracker/2.0.2/index.js"></script>
+<script charset="utf-8" src="https://a.alipayobjects.com/g/utiljs/rd/1.0.2/rd.js"></script>
+
+
+
+<script>
+  window.Tracker && Tracker.start &&  Tracker.start();
+</script>
+
+
+
+
+
+
+
+<!-- FD:106:alipay/tracker/tracker_time.vm:784:tracker_time.schema:全站 tracker 开关:END -->
+<!-- FD:106:alipay/tracker/tracker_time.vm:END -->
+
+
+<link charset="utf-8" rel="stylesheet" href="https://a.alipayobjects.com:443/al/alice.style.account-1.4.css" media="all" />
+<link charset="utf-8" rel="stylesheet" href="https://a.alipayobjects.com:443/consumeprod/record/1.8.2/consumeprod.record.css" media="all" />
+
+  </head>
+<!--[if lt IE 7]><body class="ie6 "><![endif]-->
+<!--[if IE 7]><body class="ie7 "><![endif]-->
+<!--[if IE 8]><body class="ie8 "><![endif]-->
+<!--[if IE 9]><body class="ie9 "><![endif]-->
+<!--[if !IE]><!--><body class=""><!--<![endif]-->
+<script type="text/javascript">
+AralePreload = [];
+var AP = AP || {};
+AP.PageVar = {
+  app_domain:"https://consumeprod.alipay.com:443",
+  appstore_domain: "https://app.alipay.com",
+  personal_domain:"https://lab.alipay.com",
+  personalprod_domain:"https://shenghuo.alipay.com",
+  mipgw_domain:"",
+  ccrprod_domain:"https://ccrprod.alipay.com",
+  zhangdan_domain:"https://zd.alipay.com",
+  benefits_domain:"",
+  image_domain:"https://img.alipay.com:443",
+  communityweb_domain: "",
+  tfs_domain:"https://tfsimg.alipay.com:443",
+  benefitprod_domain:"https://zht.alipay.com"
+}
+</script>
+<style>
+#container {padding-top: 1px;}
+</style>
+
+<!-- uninav -->
+
+
+
+
+
+
+
+
+<!-- CMS:全站公共 cms/nav/navSwitch.vm开始:alipay/nav/navSwitch.vm -->
+<script>
+MSGSWITCH = true;
+</script>
+
+<script>
+MERCHANT_SWITCH = 'true';
+</script>
+
+<!-- CMS:全站公共 cms/全站导航/网站改版新旧版切换开始:alipay/nav/versionSwitch.vm -->
+
+
+
+
+
+
+<!-- CMS:全站公共 cms/全站导航/网站改版新旧版切换结束:alipay/nav/versionSwitch.vm --><!-- CMS:全站公共 cms/nav/navSwitch.vm结束:alipay/nav/navSwitch.vm --><!-- abtestEnabled: false -->
+
+<!-- CMS:全站公共 cms/nav/uribroker.vm开始:alipay/nav/uribroker.vm -->    <script type="text/javascript">
+  window.GLOBAL || (GLOBAL = {});
+  GLOBAL.system = {};
+   GLOBAL.system["assetsServer"] = "https://a.alipayobjects.com"; GLOBAL.system["apimgServer"] = "https://i.alipayobjects.com"; GLOBAL.system["personalportalServer"] = "https://my.alipay.com"; GLOBAL.system["personalServer"] = "https://lab.alipay.com"; GLOBAL.system["personalprodServer"] = "https://shenghuo.alipay.com"; GLOBAL.system["memberprodServer"] = "https://memberprod.alipay.com"; GLOBAL.system["tfsImageServer"] = "https://tfs.alipayobjects.com"; GLOBAL.system["merchantwebServer"] = "https://shanghu.alipay.com"; GLOBAL.system["authCenterServer"] = "https://auth.alipay.com"; GLOBAL.system["securityServer"] = "https://securitycenter.alipay.com"; GLOBAL.system["tradecmtServer"] = "https://pingjia.alipay.com"; GLOBAL.system["appstoreServer"] = "https://app.alipay.com"; GLOBAL.system["zhangdanServer"] = "https://zd.alipay.com"; GLOBAL.system["uninavServer"] = "https://uninav.alipay.com"; GLOBAL.system["pucprodServer"] = "https://jiaofei.alipay.com"; GLOBAL.system["benefitprodServer"] = "https://zht.alipay.com"; GLOBAL.system["enterpriseportalServer"] = "https://enterpriseportal.alipay.com"; GLOBAL.system["couriercoreServer"] = "https://couriercore.alipay.com"; GLOBAL.system["uemprodServer"] = "https://uemprod.alipay.com"; GLOBAL.system["bizfundprodServer"] = "https://bizfundprod.alipay.com"; GLOBAL.system["morderprodServer"] = "https://b.alipay.com"; GLOBAL.system["consumeprodServer"] = "https://consumeprod.alipay.com"; GLOBAL.system["emembercenterServer"] = "https://emembercenter.alipay.com"; GLOBAL.system["crmhomeServer"] = "https://e.alipay.com"; GLOBAL.system["cshallServer"] = "https://cshall.alipay.com"; GLOBAL.system["openhomeServer"] = "https://openhome.alipay.com"; GLOBAL.system["yebprodServer"] = "https://yebprod.alipay.com"; GLOBAL.system["financeprodServer"] = "https://financeprod.alipay.com"; GLOBAL.system["goldetfprodServer"] = "https://goldetfprod.alipay.com"; GLOBAL.system["certifyServer"] = "https://certify.alipay.com"; GLOBAL.system["securitycenterServer"] = "https://securitycenter.alipay.com"; GLOBAL.system["couponwebServer"] = "https://hongbao.alipay.com"; GLOBAL.system["pointprodServer"] = "https://jf.alipay.com"; GLOBAL.system["pcreditprodServer"] = "https://huabei.alipay.com"; GLOBAL.system["cardServer"] = "https://card.alipay.com"; GLOBAL.system["membercenterServer"] = "https://accounts.alipay.com"; GLOBAL.system["custwebServer"] = "https://custweb.alipay.com"; GLOBAL.system["zcbprodServer"] = "https://zcbprod.alipay.com";  </script>
+    <!-- CMS:全站公共 cms/nav/uribroker.vm结束:alipay/nav/uribroker.vm -->
+
+
+
+
+
+<div id="J-global-notice-container" class="global-notice-container" style="position: relative; z-index: 999; background: #ff6600;">
+
+<!-- CMS:全站公共 cms/nav/global_ad.vm开始:alipay/nav/global_ad.vm --><!-- CMS:全站公共 cms/nav/global_ad.vm结束:alipay/nav/global_ad.vm -->
+<!-- CMS:全站公共 cms/notice/headNotice.vm开始:alipay/notice/headNotice.vm --><!--[if lte IE 7]>
+<style>.kie-bar { display: none; height: 24px; line-height: 1.8; font-weight:normal; text-align: center; border:1px solid #fce4b5; background-color:#FFFF9B; color:#e27839; position: relative; font-size: 12px; margin: 5px 0 0 0; padding: 5px 0 2px 0; } .kie-bar a { text-decoration: none; color:#08c; background-repeat: none; } .kie-bar a#kie-setup-IE8,.kie-bar a#kie-setup-taoBrowser { padding: 0 0 2px 20px; *+padding-top: 2px; *_padding-top: 2px; background-repeat: no-repeat; background-position: 0 0; } .kie-bar a:hover { text-decoration: underline; } .kie-bar a#kie-setup-taoBrowser { background-position: 0 -20px; }</style>
+<div id="kie-bar" class="kie-bar">您现在使用的浏览器版本过低，可能会导致部分图片和信息的缺失。请立即 <a href="http://www.microsoft.com/china/windows/IE/upgrade/index.aspx" id="kie-setup-IE8" seed="kie-setup-IE8" target="_blank" title="免费升级至IE8浏览器">免费升级</a> 或下载使用 <a href="http://download.browser.taobao.com/client/browser/down.php?pid=0080_2062" id="kie-setup-taoBrowser" seed="kie-setup-taoBrowser" target="_blank" title="淘宝浏览器">淘宝浏览器</a> ，安全更放心！ <a title="查看帮助" target="_blank" seed="kie-setup-help" href="https://help.alipay.com/lab/help_detail.htm?help_id=260579">查看帮助</a></div>
+<script type="text/javascript">
+(function () {
+    function IEMode() {
+        var ua = navigator.userAgent.toLowerCase();
+        var re_trident = /\btrident\/([0-9.]+)/;
+        var re_msie = /\b(?:msie |ie |trident\/[0-9].*rv[ :])([0-9.]+)/;
+        var version;
+        if (!re_msie.test(ua)) {
+            return false;
+        }
+        var m = re_trident.exec(ua);
+        if (m) {
+            version = m[1].split(".");
+            version[0] = parseInt(version[0], 10) + 4;
+            version = version.join(".");
+        } else {
+            m = re_msie.exec(ua);
+            version = m[1];
+        }
+        return parseFloat(version);
+    }
+    var ie = IEMode();
+    if (ie && ie < 8 && (self.location.href.indexOf("_xbox=true") < 0)) {
+        document.getElementById('kie-bar').style.display = 'block';
+        document.getElementById('kie-setup-IE8').style.backgroundImage = 'url(https://i.alipayobjects.com/e/201307/jYwARebNl.png)';
+        document.getElementById('kie-setup-taoBrowser').style.backgroundImage = 'url(https://i.alipayobjects.com/e/201307/jYwARebNl.png)';
+    }
+})();
+</script>
+<![endif]-->
+
+<!-- CMS:全站公共 cms/notice/headNotice.vm结束:alipay/notice/headNotice.vm --></div>
+
+
+
+
+<link rel="stylesheet" type="text/css" charset="utf-8" href="https://a.alipayobjects.com:443/alipay-nav/1.3.12/src/nav-global.css">
+<div id="globalContainer" class="global-reset global-container global-type-global"></div>
+<script src="https://a.alipayobjects.com:443/alipay-nav/1.3.12/src/nav-global.js" charset="utf-8"></script>
+<script type="text/javascript">
+document.domain=document.domain.split(".").slice(-2).join("."),seajs.use(["alipay-nav/1.3.12/src/nav-global","$"],function(a,b){window.navInit(b.extend({menu:"s2_traderecord",appKey:"",catKey:"",title:"我的账单 - 支付宝",userName:"孙海林",email:"379978424@qq.com",mobile:"186******36",logonIdType:"EMAIL",userId:"2088512126566040",portraitPath:"/images/partner/T1IedCXbRXXXXXXXXX",container:"#globalContainer",timestamp:(new Date).getTime(),pageAbsUrl:"http://consumeprod.alipay.com/record/advanced.htm",isLogin:true,msgSwitch:window.MSGSWITCH,msgHide:1,needLoadMsg:"",showTaobaoLogin:false,showAlibabaLogin:false,showMerchant:false,showPersonal:false,abtestEnabled:false,abtest:"",abtestType:"GLOBAL_P",merchantSwitch:window.MERCHANT_SWITCH},GLOBAL.system))});
+
+
+</script>
+
+ <div id="container" class="ui-container">
+
+
+<div id="content" class="ui-content fn-clear" coor-rate="0.02" coor="default">
+    <!--主交易记录区域start-->
+    <div class="ui-grid-25" coor="content" id="main">
+        <!--大促公告start-->
+        <!-- FD:74:consumeprod/record/advanced_notice.vm:START --><!-- FD:74:consumeprod/record/advanced_notice.vm:406:advanced_notice.schema:advanced_notice-大促消费记录高级版公告:START --><!-- FD:74:consumeprod/record/advanced_notice.vm:406:advanced_notice.schema:advanced_notice-大促消费记录高级版公告:END --><!-- FD:74:consumeprod/record/advanced_notice.vm:END -->        <!--标题区域start-->
+        <div class="ui-title fn-clear">
+            <h2 class="fn-left">交易记录</h2>
+		            <div class="link">
+                <a href="https://consumeprod.alipay.com:443/record/switchVersion.htm">切换到标准版</a>
+            </div>
+		            <div class="action">
+                 	       可用余额 <em class="ft-green"><strong>0.00</strong></em> 元
+                <a target="_blank" href="https://lab.alipay.com/consume/record/items.htm">余额收支明细</a>
+                <em class="ft-bar">|</em>
+				                 <a target="_blank" href="https://consumeprod.alipay.com:443/record/trashIndex.htm" class="trash-index" seed="trash-link"><span class="record-icon icon-trash"></span>回收站</a>
+            </div>
+        </div>
+        <!--标题区域end-->
+
+
+
+
+   <form coor="form"  name="topSearchForm" id="topSearchForm" class="record-search-form record-search-max" action="advanced.htm" method="post">
+
+<style type="text/css" media="screen">
+    .record-search-form{position: relative;margin-bottom:0;}
+    .record-search-option-type .option-keyword-label{display:inline-block;margin-left:2px;*+margin-top:3px;vertical-align:middle;}
+    .record-history-link { color:#4d4d4d; position:absolute; top:20px; right:20px; }
+    .advanced-download{ padding:0 20px 5px; }
+    .record-search-option-date .custom-date-input,.record-search-option-date .drop-down{display: none;}
+    .record-search-option-date .show-input .custom-date-input,.record-search-option-date .show-input .drop-down{display: inline-block;*display:inline;zoom:1;}
+
+    .ui-select-trigger {
+        background-image:url("https://i.alipayobjects.com/e/201209/9LGLKdfPz.png");
+        background-repeat:no-repeat;
+        background-position:right -529px;
+        display:inline-block;
+        text-decoration:none;
+        font-size:12px;
+        border: 1px solid #eee;
+        padding:0 29px 0 10px;
+        font-family:tahoma;
+        height:26px;
+        line-height:26px;
+        border:1px solid #ccc;
+        color:#4d4d4d;
+        cursor:pointer;
+        vertical-align: middle;
+        *margin-bottom:3px;
+        word-break:keep-all;/* 不换行 */
+        white-space:nowrap;/* 不换行 */
+        overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
+        text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+
+    }
+    .ui-select-trigger:hover {
+        border-color:#a6a6a6;
+        text-decoration:none;
+        color:#4d4d4d;
+    }
+    .ui-select-trigger:active {
+        color:#4d4d4d;
+    }
+    .ui-form-item-error .ui-select-trigger {
+        border:1px solid #f00
+    }
+    .ui-select {
+        border: 1px solid #eee;
+        font-family:tahoma;
+        overflow-y: auto;
+        overflow-x: hidden;
+        width: 154px;
+        _height:expression(this.scrollHeight>252?"253px":"auto");
+        max-height:253px;
+
+    }
+    .ui-select-multi {
+        overflow: auto;
+        overflow-x: visible;
+        overflow-y: visible;
+        max-height: 1000px;
+    }
+    .ui-select-multi ul ul {
+        overflow-y: auto;
+        _height:expression(this.scrollHeight>252?"253px":"auto");
+        max-height:253px;
+        border: 1px solid #ccc;
+        width:150px;
+        overflow-x: hidden;
+    }
+    .ui-select-content {
+        border:1px solid #ccc;
+        background:#f2f2f2
+    }
+    .ui-select-item {
+        font-size:12px;
+        list-style: none;
+        height: 28px;
+        line-height: 28px;
+        padding:0 15px 0 10px;
+        cursor: default;
+        width: 125px;
+        background:#fff;
+        word-break:keep-all;/* 不换行 */
+        white-space:nowrap;/* 不换行 */
+        overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
+        text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+    }
+
+    .ui-select-item-hover {
+        background: #f9f9f9;
+    }
+    .ui-select-item-selected {
+        background: #f0f0f0;
+    }
+    .ui-select-disabled {
+        color: #ccc;
+    }
+    .ui-select-mini {width:71px;}
+    .ui-select-mini .ui-select-item {width: 43px;}
+    .ui-select-large {width:386px;}
+    .ui-select-middle {width: 102px;}
+    .ui-select-middle .ui-select-item {width: 73px;}
+    .ui-select-large .ui-select-item {width: 358px;}
+
+    .ui-select #J-category-manager {display: none;margin-left:38px;zoom:1;}
+    .ui-select-item-hover #J-category-manager {display: inline;}
+
+</style>
+<!--大C的搜索-->
+
+<input type="hidden" name="rdsToken" id="rdsToken" value="" />
+<input type="hidden" name="rdsUa" id="rdsUa" value="" />
+
+<div class="record-search-option fn-clear">
+    <div class="record-search-option-date fn-clear">
+        <!--交易时间start-->
+        <div class="ui-form-item fn-left" id="J-search-date-container">
+            <label class="ui-form-label">交易时间：</label>
+            <div class="ui-form-item-content " id="J-datetime-select">
+                <div class="inline-block custom-date-input" id="J-custom-date">                     <input readonly="readonly" class="ui-input ui-input-len10" id="beginDate" value="2017.09.19" name="beginDate" autocomplete="off">
+                    <select id="beginTime" name="beginTime" class="ui-form-select fn-hide"  autocomplete="off">
+                        						    						    						    <option value="00:00"  selected>00:00</option>
+												    						    						    <option value="01:00"  >01:00</option>
+												    						    						    <option value="02:00"  >02:00</option>
+												    						    						    <option value="03:00"  >03:00</option>
+												    						    						    <option value="04:00"  >04:00</option>
+												    						    						    <option value="05:00"  >05:00</option>
+												    						    						    <option value="06:00"  >06:00</option>
+												    						    						    <option value="07:00"  >07:00</option>
+												    						    						    <option value="08:00"  >08:00</option>
+												    						    						    <option value="09:00"  >09:00</option>
+												    						    						    <option value="10:00"  >10:00</option>
+												    						    						    <option value="11:00"  >11:00</option>
+												    						    						    <option value="12:00"  >12:00</option>
+												    						    						    <option value="13:00"  >13:00</option>
+												    						    						    <option value="14:00"  >14:00</option>
+												    						    						    <option value="15:00"  >15:00</option>
+												    						    						    <option value="16:00"  >16:00</option>
+												    						    						    <option value="17:00"  >17:00</option>
+												    						    						    <option value="18:00"  >18:00</option>
+												    						    						    <option value="19:00"  >19:00</option>
+												    						    						    <option value="20:00"  >20:00</option>
+												    						    						    <option value="21:00"  >21:00</option>
+												    						    						    <option value="22:00"  >22:00</option>
+												    						    						    <option value="23:00"  >23:00</option>
+												    						    						    <option value="24:00"  >24:00</option>
+						                    </select>
+                    <em class="ft-bar">-</em>
+                    <input readonly="readonly" class="ui-input ui-input-len10" id="endDate" value="2017.09.25" name="endDate" autocomplete="off">
+                    <select id="endTime" name="endTime" class="ui-form-select fn-hide" autocomplete="off">
+                        						    						    						    <option value="00:00"  >00:00</option>
+												    						    						    <option value="01:00"  >01:00</option>
+												    						    						    <option value="02:00"  >02:00</option>
+												    						    						    <option value="03:00"  >03:00</option>
+												    						    						    <option value="04:00"  >04:00</option>
+												    						    						    <option value="05:00"  >05:00</option>
+												    						    						    <option value="06:00"  >06:00</option>
+												    						    						    <option value="07:00"  >07:00</option>
+												    						    						    <option value="08:00"  >08:00</option>
+												    						    						    <option value="09:00"  >09:00</option>
+												    						    						    <option value="10:00"  >10:00</option>
+												    						    						    <option value="11:00"  >11:00</option>
+												    						    						    <option value="12:00"  >12:00</option>
+												    						    						    <option value="13:00"  >13:00</option>
+												    						    						    <option value="14:00"  >14:00</option>
+												    						    						    <option value="15:00"  >15:00</option>
+												    						    						    <option value="16:00"  >16:00</option>
+												    						    						    <option value="17:00"  >17:00</option>
+												    						    						    <option value="18:00"  >18:00</option>
+												    						    						    <option value="19:00"  >19:00</option>
+												    						    						    <option value="20:00"  >20:00</option>
+												    						    						    <option value="21:00"  >21:00</option>
+												    						    						    <option value="22:00"  >22:00</option>
+												    						    						    <option value="23:00"  >23:00</option>
+												    						    						    <option value="24:00"  selected>24:00</option>
+						                    </select>
+                </div>
+                <select id="J-select-range" class="ui-form-select fn-hide" name="dateRange" autocomplete="off">
+                    <option value="today" >今天</option>
+                    <option value="sevenDays" selected>最近一周</option>
+                    <option value="oneMonth" >最近一个月</option>
+                    <option value="threeMonths" >最近三个月</option>
+                    <option id="J-custom-date-trigger" class="J-date-trigger" value="customDate" >自定义时间</option>
+                </select>
+                                    <a href="#" class="ui-select-trigger ui-select-middle-trigger J-select-fake" style="width: 63px;">最近一周</a>
+                                <p id="J-start-earlier-notice" class="ui-tiptext ui-tiptext-error mt-15 ft-red fn-hide"><span class="ui-tiptext-icon"></span>开始日期不能晚于结束日期，请重新选择。</p>
+                <p id="J-range-limit-notice" class="ui-tiptext ui-tiptext-warning mt-15 ft-orange  fn-hide "><span class="ui-tiptext-icon"></span>日期跨度限制一年以内，请重新选择。</p>
+            </div>
+
+        </div>
+        <!--交易时间end-->
+        <!--大C交易状态start-->
+        <div class="ui-form-item fn-left">
+            <label class="ui-form-label" for="tradeStatus">交易状态：</label>
+            <div class="ui-form-item-content" id="J-state-select">
+                <select id="tradeStatus" class="ui-form-select ui-select-len9 fn-hide" name="status">
+                                        <option selected   value="all">所有状态</option>
+                                        <option   value="inProcess">进行中</option>
+                                        <option   value="waitPay">等待付款</option>
+                                        <option   value="waitSendGoods">等待发货</option>
+                                        <option   value="waitConfirmGoods">等待确认收货</option>
+                                        <option   value="refund">退款</option>
+                                        <option   value="success">成功</option>
+                                        <option   value="fail">失败</option>
+                                        <option   value="refundInProcess">退款待处理</option>
+                                        <option   value="codWaitBuyerPay">等待买家签收</option>
+                                        <option   value="codWaitReceiptConfirm">等待签收确认</option>
+                                        <option   value="codWaitSysPaySeller">等待系统打款给卖家 </option>
+                                        <option   value="mr">维权</option>
+                                    </select>
+                <a href="#" class="ui-select-trigger J-select-fake" style="width: 115px;">所有状态</a>
+            </div>
+        </div>
+        <!--大C交易状态end-->
+    </div>
+    <div class="record-search-option-keyword pt-15 fn-clear">
+        <!--关键字start-->
+        <div class="ui-form-item fn-left" id="J-search-keyword-container">
+            <label for="keyword" class="ui-form-label">关键词：</label>
+            <div class="ui-form-item-content" id="J-keyword-type-select">
+                <select id="keyword" class="ui-form-select ui-select-len9 fn-hide" name="keyword"  autocomplete="off">
+                                        <option seed="CR-keywords-bizNo"  value="bizNo">流水号</option>
+                                        <option seed="CR-keywords-generalInfo"   value="generalInfo">交易信息</option>
+                    <option seed="CR-keywords-oppositeName"   value="oppositeName">对方名称</option>
+                </select>
+                <a href="#" class="ui-select-trigger ui-select-middle-trigger J-select-fake" style="width: 63px;">商户订单号</a>
+                <input type="text" maxlength="200" id="J-keyword" value="" name="keyValue" class="ui-input search-keyword" seed="CR-keywords-import" autocomplete="off">
+            </div>
+        </div>
+        <!--关键字end-->
+
+        <!--时间类型start-->
+        <div class="ui-form-item fn-left">
+            <label class="ui-form-label" for="dateType">时间类型：</label>
+            <div class="ui-form-item-content" id="J-time-type-select">
+                <select id="dateType" class="ui-form-select ui-select-len9 fn-hide" name="dateType"  autocomplete="off">
+                    <option value="createDate"  selected  >创建时间</option>
+                    <option value="payDate"  >付款时间</option>
+                    <option value="receiveDate"  >收款时间</option>
+                </select>
+                <a href="#" class="ui-select-trigger J-select-fake" style="width: 115px;">创建时间</a>
+            </div>
+        </div>
+        <!--时间类型end-->
+    </div>
+    <div class="record-search-option-amount pt-15 fn-clear">
+        <!--金额范围start-->
+        <div class="ui-form-item fn-left " id="J-search-amount-container">
+            <label class="ui-form-label" >金额范围：</label>
+            <div class="ui-form-item-content">
+                <input type="text" id="minAmount" value="" name="minAmount" autocomplete="off" seed="CR-money-min" style="ime-mode: disabled" class="ui-input ui-input-len10" />
+                <span class="ui-separator-pd">-</span>
+                <input type="text" id="maxAmount" value="" name="maxAmount" autocomplete="off" seed="CR-money-max" style="ime-mode: disabled" class="ui-input ui-input-len10" />
+            </div>
+        </div>
+        <!--金额范围end-->
+
+        <!--资金流向start-->
+        <div class="ui-form-item fn-left">
+            <label class="ui-form-label" for="fundFlow">资金流向：</label>
+            <div class="ui-form-item-content">
+                <select name="fundFlow" class="ui-form-select ui-select-len9 fn-hide" id="fundFlow" autocomplete="off">
+                    <option value="all" seed="CR-fund-all"  selected  >全部</option>
+                    <option value="in" seed="CR-fund-Income" >收入</option>
+                    <option value="out" seed="CR-fund-spend" >支出</option>
+                </select>
+                <a href="#" class="ui-select-trigger J-select-fake" style="width: 115px;">全部</a>
+            </div>
+        </div>
+        <!--资金流向end-->
+    </div>
+
+    <div class="record-search-option-type pt-15 fn-clear">
+        <!--交易类型start-->
+        <div class="ui-form-item fn-left">
+            <label class="ui-form-label ui-label-text">交易方式：</label>
+            <div class="ui-form-item-content" id="J-tradetype-select">
+                <input type="checkbox" name="tradeModes" value="S" id="surety"  /><label for="surety" class="option-keyword-label" autocomplete="off">担保交易</label>
+                <input type="checkbox" name="tradeModes" value="FP"   id="instant" /><label for="instant" class="option-keyword-label" autocomplete="off">即时到账</label>
+                <input type="checkbox" name="tradeModes" value="COD"   id="delivery" autocomplete="off" /><label for="delivery" class="option-keyword-label">货到付款</label>
+            </div>
+        </div>
+        <!--交易类型end-->
+
+        <!--交易分类start-->
+        <div class="ui-form-item fn-left">
+            <label class="ui-form-label" for="tradeCategory">交易分类：</label>
+            <div class="ui-form-item-content" id="J-category-select">
+                <a id="tradeType" class="ui-select-trigger ui-select-multi-trigger" href="javascript:''" style="width: 115px;">所有交易</a>
+                <input name="tradeType" value="ALL" autocomplete="off" style="width:0;height:0;margin-left:-10000px" />
+                <input  type="hidden" name="categoryId" value="" autocomplete="off" />
+            </div>
+        </div>
+        <!--交易分类end-->
+    </div>
+	<!-- 分页 -->
+	<input  type="hidden" name="pageNum" value="1" id="query-pageNum"/>
+
+    <div id="J-submit-form" class="record-search-submit">
+        <div class="ui-button ui-button-morange">
+            <input id="J-set-query-form" class="ui-button-text" type="submit" value="搜 索" seed="CR-filter">
+        </div>
+            </div>
+
+
+</div>
+
+
+<script>
+    seajs.use('consumeprod/record/1.0.8/knight', function(knight) {
+        var model = [];
+                var tmp = {};
+        tmp.text = "全部";
+        tmp.value = "ALL";
+        if (tmp.value == 'ALL') {
+            tmp.selected = true;
+        }
+        model.push(tmp);
+                var tmp = {};
+        tmp.text = "购物";
+        tmp.value = "SHOPPING";
+        if (tmp.value == 'ALL') {
+            tmp.selected = true;
+        }
+        model.push(tmp);
+                var tmp = {};
+        tmp.text = "线下";
+        tmp.value = "OFFLINENETSHOPPING";
+        if (tmp.value == 'ALL') {
+            tmp.selected = true;
+        }
+        model.push(tmp);
+                var tmp = {};
+        tmp.text = "理财";
+        tmp.value = "FINANCE";
+        if (tmp.value == 'ALL') {
+            tmp.selected = true;
+        }
+        model.push(tmp);
+                var tmp = {};
+        tmp.text = "转账";
+        tmp.value = "TRANSFER";
+        if (tmp.value == 'ALL') {
+            tmp.selected = true;
+        }
+        model.push(tmp);
+                var tmp = {};
+        tmp.text = "还款";
+        tmp.value = "CCR";
+        if (tmp.value == 'ALL') {
+            tmp.selected = true;
+        }
+        model.push(tmp);
+                var tmp = {};
+        tmp.text = "缴费";
+        tmp.value = "PUC_CHARGE";
+        if (tmp.value == 'ALL') {
+            tmp.selected = true;
+        }
+        model.push(tmp);
+                var tmp = {};
+        tmp.text = "充值";
+        tmp.value = "DEPOSIT";
+        if (tmp.value == 'ALL') {
+            tmp.selected = true;
+        }
+        model.push(tmp);
+                var tmp = {};
+        tmp.text = "提现";
+        tmp.value = "WITHDRAW";
+        if (tmp.value == 'ALL') {
+            tmp.selected = true;
+        }
+        model.push(tmp);
+                var tmp = {};
+        tmp.text = "还贷款";
+        tmp.value = "PERLOAN";
+        if (tmp.value == 'ALL') {
+            tmp.selected = true;
+        }
+        model.push(tmp);
+                var tmp = {};
+        tmp.text = "手机充值";
+        tmp.value = "MOBILE_RECHARGE";
+        if (tmp.value == 'ALL') {
+            tmp.selected = true;
+        }
+        model.push(tmp);
+
+        var Select = knight.arale.Select,
+            $ = knight.$,
+            jquery = $;
+
+        $(function () {
+                        $('.J-select-fake').hide();
+
+                    var s = new Select({
+                trigger: '#tradeType',
+                model: model,
+                name: 'tradeType'
+            }).render();
+            s.element.addClass('ui-select-multi');
+            s.get('trigger').addClass('ui-select-multi-trigger');
+            s.get('selectSource').data('selectObj', s);
+
+
+                    $('#topSearchForm').find('select').each(function (i, ele) {
+                ele = $(ele);
+                var s = new Select({
+                    trigger: ele
+                });
+
+                var name = ele.attr('name');
+                if (name == 'beginTime' || name == 'endTime') {
+                    s.element.addClass('ui-select-mini');
+                    s.get('trigger').addClass('ui-select-mini-trigger');
+                } else if (name == 'keyword' || name == 'dateRange') {
+                    s.element.addClass('ui-select-middle');
+                    s.get('trigger').addClass('ui-select-middle-trigger');
+                }
+
+                s.get('selectSource').data('selectObj', s);
+
+                s.render();
+            });
+
+            //手动调用smartracker 重新增加埋点
+            window.Smartracker && Smartracker.sow && Smartracker.sow(document.getElementById('topSearchForm'));
+
+                        $('#J-select-range').change(dealWithDateTime);
+        });
+
+
+        function dealWithDateTime () {
+            var target = $('#J-select-range')
+
+            var select = target.data('selectObj'),
+            trigger = select.get('trigger');
+
+            if (target.val() == "customDate") {
+                $("#J-datetime-select").addClass("show-input");
+                trigger.data('paddingLeft', trigger.css('padding-left'));
+                if(jquery.browser.msie && jquery.browser.version < 8) {
+                    trigger.text('').css({
+                        'width': '0',
+                        'padding-left': '3px',
+                        'margin-left':'5px'
+                    });
+                    } else{
+                    trigger.text('').css({
+                        width: '0',
+                        'padding-left': '3px'
+                    });
+                }
+                select.set('align', {
+                    baseElement: trigger,
+                    baseXY: ['100%', '100%-1px'],
+                    selfXY: ['100%', 0]
+                });
+                select.element.removeClass('ui-select-middle').addClass('ui-select-large');
+
+                } else {
+                // 如果选择的不是自定义时间时，将值恢复，并且隐藏提示信息
+                $('[name=beginDate]').val('2017.09.19');
+                $('[name=beginTime]').val('00:00');
+                $('[name=endDate]').val('2017.09.25');
+                $('[name=endTime]').val('24:00');
+                $('#J-critical-date-notice').add('#J-start-earlier-notice').addClass('fn-hide');
+
+                select.element.addClass('ui-select-middle').removeClass('ui-select-large');
+                trigger.css({
+                    'padding-left': trigger.data('paddingLeft')
+                });
+                select._setTriggerWidth();
+                $("#J-datetime-select").removeClass("show-input");
+                if(jquery.browser.msie && jquery.browser.version < 8) {
+                    trigger.css({
+                        'margin-left':'0'
+                    });
+                }
+            }
+        }
+
+        $(function() {
+                        /*
+            $(".J-form-reset").click(function(e){
+                e.preventDefault();
+                var form = $('#topSearchForm');
+                form.get(0).reset();
+                $(':input', form).each(function(i, item) {
+                    item = $(item);
+                    var selectObj = item.data('selectObj');
+                    if (!selectObj) return true;
+                    selectObj.select('[data-value="' + item.val() + '"]');
+                });
+                dealWithDateTime();
+            })
+            */
+        });
+
+    });
+</script>
+
+</form>
+
+<script type="text/javascript">
+	var form_tk = "LpGlHQXq0ljRiVB926ybSIZkqLS3PTyK";
+	var json_ua = null;// 分别存储token和ua数据
+</script>
+<script type="text/javascript" src="https://rds.alipay.com/ua_consumeprod_record_advanced.js?t=20170925"></script>
+
+<script>
+seajs.use('consumeprod/record/1.0.8/knight', function(knight) {
+    var Calendar = knight.arale.Calendar,
+        Validator = knight.arale.Validator,
+        ValidatorCore = knight.arale.ValidatorCore,
+        $ = knight.$,
+        jquery = $,
+        moment = knight.gallery.moment,
+        URI = knight.biz.URI;
+
+    $(function() {
+        // 限制金额范围 input 只能输入数字
+        $('#J-search-amount-container input').keydown(function(e) {
+            var target = $(e.target);
+            var val = target.val();
+            if (!(isNaN(val) || /[a-zA-Z-]/.test(val))) {
+                target.data('old_value', val)
+            }
+        });
+        $('#J-search-amount-container input').keyup(function(e) {
+            var target = $(e.target);
+            var val = target.val();
+            if (isNaN(val) || /[a-zA-Z-]/.test(val)) {
+                target.val(target.data('old_value'));
+            }
+        });
+
+        //金额范围处理：若最小值大于最小值，交换
+        function validateAmount() {
+            var AMOUNT_REGEXP = /^[1-9][0-9]*(\.[0-9]{0,2})?$/;
+            var min_input = $('#J-search-amount-container [name=minAmount]'),
+                max_input = $('#J-search-amount-container [name=maxAmount]'),
+                min = jquery.trim(min_input.val()),
+                max = jquery.trim(max_input.val()),
+                min_old = '',
+                max_old = '';
+
+            if ((min && max) && (Number(min) > Number(max))) {
+                min_input.val(max);
+                max_input.val(min);
+            }
+
+        }
+
+
+
+        // 标志位
+        var silent = false;
+
+        var DATE_FORMAT = 'YYYY.MM.DD';
+
+        var startCal = new Calendar({
+            trigger: '#beginDate',
+            startDay: 'Monday',
+            format: DATE_FORMAT,
+            range: function(time) {
+                // 可选择范围设定为早于或等于当天
+                var t = time.toDate().getTime() - moment('2017.09.25', DATE_FORMAT).toDate().getTime();
+                return t <= 0;
+            },
+            onSelectDate: function(date) {
+                if (!silent) {
+                    $('[name=beginDate]').val(date.format(DATE_FORMAT));
+                    v.execute(function(err) {
+                    });
+                }
+            }
+        });
+        var endCal = new Calendar({
+            trigger: '#endDate',
+            startDay: 'Monday',
+            format: DATE_FORMAT,
+            range: function(time) {
+                // 可选择范围设定为早于或等于当天
+                var t = time.toDate().getTime() - moment('2017.09.25', DATE_FORMAT).toDate().getTime();
+                return t <= 0;
+            },
+            onSelectDate: function(date) {
+                if (!silent) {
+                    $('[name=endDate]').val(date.format(DATE_FORMAT));
+                    v.execute(function(err) {
+                    });
+                }
+            }
+        });
+
+
+        $('[name=beginTime]').add('[name=endTime]').change(function() {
+            v.execute();
+        });
+
+        //submit 时处理
+        $('#topSearchForm').submit(function(e) {
+            e.preventDefault();
+
+            // 大C金额范围处理
+            validateAmount();
+
+            // 解决 placeholder 在IE下被提交的问题：placeholder本身有问题，或者jq的dom ready事件有问题
+            $('.placeholder', this).each(function(i, ele) {
+                var val = $(ele).val();
+                $(ele).get(0).value = val;
+            });
+
+            // 如果选中的是自定义分类二级菜单那么把 tradeType 赋值空，把select的值赋值给categoryId
+            var tradeTypeInput = $('[name=tradeType]', this),
+                    sObj = tradeTypeInput.data('selectObj');
+
+            var index = sObj.get('selectedIndex');
+            if (index instanceof Array && index.length != 1
+                    && sObj.currentItem.parents('li').attr('data-value') == 'custom') {
+                //选中的是自定义分类二级菜单
+
+                var value = sObj.get('value');
+                tradeTypeInput.val('');
+                $('[name=categoryId]').val(value);
+            } else {
+                $('[name=categoryId]').val('');
+            }
+
+			//提交RDS相关参数
+			$('[name=rdsToken]').val(form_tk);
+            $('[name=rdsUa]').val(json_ua);
+
+            var that = this;
+            v.execute(function(err) {
+                if (!err) {
+                    e.target.submit();
+                }
+            });
+        });
+
+        var v = new ValidatorCore({
+            element: '#J-search-date-container',
+            checkNull: true,
+            triggerType: [],
+            autoFocus: false,
+            autoSubmit: true,
+            onFormValidate: function() {
+                $('#J-critical-date-notice').addClass('fn-hide');
+                $('#J-start-earlier-notice').addClass('fn-hide')
+            },
+            onFormValidated: function(err, results, ele) {
+                if (err) {
+                    if (results[0][0] == 'startEarlierThanEnd') {
+                        $('#J-start-earlier-notice').removeClass('fn-hide')
+                    }
+                }
+            }
+        });
+
+        // 校验开始日期不能晚于结束日期
+        Validator.addRule('startEarlierThanEnd', function(options) {
+            var beginDate = $('[name=beginDate]').val(),
+                endDate = $('[name=endDate]').val(),
+                beginTime = $('[name=beginTime]').val() || '',
+                endTime = $('[name=endTime]').val() || '';
+
+            if (!beginDate || !endDate) {
+                return true;
+            } else {
+                var delimiter = '.';
+                beginDate = beginDate.split(delimiter).join('');
+                endDate = endDate.split(delimiter).join(''),
+                beginTime = beginTime.split(':').join(''),
+                endTime = endTime.split(':').join('');
+                return Number(beginDate + beginTime) <= Number(endDate + endTime);
+            }
+        });
+
+        v.addItem({
+            triggerType: [],
+            element: '[name=beginDate]',
+            rule: 'startEarlierThanEnd'
+        });
+
+		$(".statusTrigger").click(function (e) {
+            e.preventDefault();
+
+			rewriteTopSearchForm();
+
+			triggerQueryByStatus($(this).attr("tradeStatus"));
+		});
+
+		$(".page-trigger").click(function (e) {
+            e.preventDefault();
+
+			rewriteTopSearchForm()
+
+			triggerQueryByPage($(this).attr("pageNum"));
+		});
+    });
+
+	function rewriteTopSearchForm(){
+
+	    $("#beginDate").val("2017.09.19");
+		$("#beginTime").val("00:00");
+		$("#endDate").val("2017.09.25");
+		$("#endTime").val("24:00");
+		$("#J-select-range").val("sevenDays");
+		$("#tradeStatus").val("all");
+		$("#keyword").val("");
+		$("#J-keyword").val("");
+		$("#dateType").val("createDate");
+		$("#minAmount").val("");
+		$("#maxAmount").val("");
+		$("#fundFlow").val("all");
+		$("#tradeType").val("ALL");
+
+		$("[name=tradeModes]").prop({checked:false});
+			}
+
+	function triggerQueryByStatus(status){
+        $("#tradeStatus").val(status);
+		$("#topSearchForm").submit();
+	}
+
+	function triggerQueryByPage(pageNum){
+        $("#query-pageNum").val(pageNum);
+		$("#topSearchForm").submit();
+	}
+
+});
+</script>
+
+
+
+
+
+
+        <div class="amount-top">
+            <div class="action-content">
+                            <a class="amount-links" seed="CR-statistical-bottom"  href="https://consumeprod.alipay.com:443/record/statisticAdvanced.json?_input_charset=utf-8&dateRange=sevenDays&amp;tradeType=ALL&amp;status=all&amp;fundFlow=all&amp;beginTime=00%3A00&amp;endDate=2017.09.25&amp;endTime=24%3A00&amp;beginDate=2017.09.19&amp;dateType=createDate&amp;pageNum=1"><span class="record-icon icon-count"></span>统计金额</a>
+                <div class="amount-detail"><img style="vertical-align:middle;" src="https://i.alipayobjects.com/e/201202/2adw50Ek31.gif" width="16" height="16" alt="载入中" /></div>
+                            <div class="fn-clear action-other  action-other-show ">
+                    <div class="fn-left ">
+
+
+<div class="fn-left">
+	<span class="ft-gray">下载账单:</span>
+	<a class="J-download-tip mr-10" data-link="https://consumeprod.alipay.com:443/record/download.htm?_input_charset=utf-8&suffix=csv&dateRange=sevenDays&amp;tradeType=ALL&amp;status=all&amp;fundFlow=all&amp;beginTime=00%3A00&amp;endDate=2017.09.25&amp;endTime=24%3A00&amp;beginDate=2017.09.19&amp;dateType=createDate&amp;pageNum=1">Excel格式</a>
+	<a class="J-download-tip" data-link="https://consumeprod.alipay.com:443/record/download.htm?_input_charset=utf-8&suffix=txt&dateRange=sevenDays&amp;tradeType=ALL&amp;status=all&amp;fundFlow=all&amp;beginTime=00%3A00&amp;endDate=2017.09.25&amp;endTime=24%3A00&amp;beginDate=2017.09.19&amp;dateType=createDate&amp;pageNum=1">Txt格式</a>
+</div>
+
+
+<script type="text/javascript">
+document.domain=document.domain.split(".").slice(-2).join(".");
+
+seajs.use(['alipay/xbox/1.1.5/xbox','jquery'], function(Xbox, $) {
+    var example = new Xbox({
+        type: 'iframe',
+		width: '600px',
+        trigger: '.J-download-tip'
+    }).before('show',function() {
+        var url = this.activeTrigger.attr('data-link');
+        this.set('content', url);
+    }).render();
+});
+</script>                                            </div>
+
+                                                                    <div class="page fn-right">
+                            <div class="page-link">
+                                                                                                                                       <a class="ui-button ui-button-swhite page-trigger" href="javascript:;" pageNum="2"><span class="ui-button-text">下一页</span></a>
+                                                            </div>
+                        </div>
+                                                            </div>
+
+            </div>
+        </div>
+        <div class="ui-recordtab">
+			<ul class="ui-recordtab-items fn-clear">
+						    <li class="ui-recordtab-item  ui-recordtab-item-current  ">
+			        <a  href="javascript:;" class="statusTrigger" tradeStatus="all" >所有状态</a> 			    </li>
+
+						    <li class="ui-recordtab-item ">
+			        <a  href="javascript:;" class="statusTrigger" tradeStatus="inProcess" >进行中</a> 			    </li>
+
+						    <li class="ui-recordtab-item ">
+			        <a  href="javascript:;" class="statusTrigger" tradeStatus="waitPay" >等待付款</a> 			    </li>
+
+						    <li class="ui-recordtab-item ">
+			        <a  href="javascript:;" class="statusTrigger" tradeStatus="waitSendGoods" >等待发货</a> 			    </li>
+
+						    <li class="ui-recordtab-item ">
+			        <a  href="javascript:;" class="statusTrigger" tradeStatus="waitConfirmGoods" >等待确认收货</a> 			    </li>
+
+						    <li class="ui-recordtab-item ">
+			        <a  href="javascript:;" class="statusTrigger" tradeStatus="refund" >退款</a> 			    </li>
+
+						    <li class="ui-recordtab-item ">
+			        <a  href="javascript:;" class="statusTrigger" tradeStatus="success" >成功</a> 			    </li>
+
+						    <li class="ui-recordtab-item ">
+			        <a  href="javascript:;" class="statusTrigger" tradeStatus="fail" >失败</a> 			    </li>
+
+						    <li class="ui-recordtab-item ">
+			        <a  href="javascript:;" class="statusTrigger" tradeStatus="mr" >维权</a> 			    </li>
+
+						</ul>
+        </div>
+
+
+    <style type="text/css" media="screen">
+    	.ui-poptip .ui-poptip-box{
+    		min-height: 25px;
+    	}
+    </style>
+
+
+
+    <table class="ui-record-table table-index-bill" id="tradeRecordsIndex" width="100%">
+		            		<colgroup>
+    			<col width=""/>
+    			<col width="3%"/>
+    			<col width=""/>
+    			<col width="19%"/>
+    			<col width="12%"/>
+    			<col width="12%"/>
+    			<col width="4%"/>
+    			<col width="11%"/>
+    			<col width="12%"/>
+    		</colgroup>
+    		<thead>
+    		<tr>
+    			<th class="time">
+                        					创建时间
+                        			</th>
+    			<th class="memo"></th>				<th class="name">名称</th>
+				<th class="tradeNo">商户订单号<em class="ft-bar">|</em>交易号</th>
+				<th class="other">对方</th>
+				<th class="amount">金额</th>
+				<th class="detail"><em class="ft-bar">|</em>明细</th>
+				<th class="status">状态</th>
+				<th class="action">操作</th>
+    		</tr>
+    		</thead>
+    		<tbody>
+
+
+
+
+
+
+
+
+    			<tr id="J-item-1"
+    			    class="J-item  ">
+
+
+<td class="time">
+			<p class="time-d">			2017.09.25
+	</p>
+		<p class="time-h ft-gray">			12:44
+	</p>
+	</td>
+
+
+
+
+<td class="memo">
+
+
+</td>
+
+
+
+<td class="name">
+	<p class="consume-title">
+
+
+
+	<a href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=TRADE&bizInNo=2017092521001004040534703541&gmtBizCreate=20170925124434"  target="_blank">广州全家购物</a>
+    </p>
+
+		</td>
+
+
+
+<td class="tradeNo ft-gray">     <p>订单号:SXA1O34801926444 | 交易号:2017092521001004040534703541</p>
+</td>
+
+<td class="other">
+  	<p class="name">
+					全家便利店(广州区域店)
+			</p>
+	<p class="no ft-gray">
+			</p>
+</td>
+
+
+
+<td class="amount">
+    			<span class="amount-pay">- 23.70</span>
+	    </td>
+
+
+
+
+<td class="detail">
+
+	    		  <a class="J-amount-more mr-10 record-icon icon-detail J-details-trigger" href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=TRADE&bizInNo=2017092521001004040534703541&gmtBizCreate=			20170925124434
+	" seed="trade-details"></a>
+
+
+</td>
+
+
+
+
+<td class="status">
+		<p>交易成功</p>
+		<p></p>
+
+		<p class="ft-gray"></p>
+</td>
+
+
+
+
+
+<td class="action">
+    <select id="J-operation-select-1" class="fn-hide J-operation-select">
+
+
+
+
+
+
+
+
+
+       		        	        	        		<option seed="trade-detail"  data-link="https://lab.alipay.com/consume/queryTradeDetail.htm?tradeNo=2017092521001004040534703541" data-target="_blank">详情</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <option class="split" seed="trade-memo" data-action="edit-memo" data-link="https://consumeprod.alipay.com:443/record/editMemo.htm?bizInNo=2017092521001004040534703541&createDate=			20170925124434
+	&bizType=TRADE" rel-id="" data-tip="请勿备注个人敏感信息">备注</option>
+
+
+            <option seed="trade-delete" data-action="delete" data-link="https://consumeprod.alipay.com:443/record/delete.json?record=			2017-09-25 12:44:34
+	~2017092521001004040534703541~TRADE" data-fund-change="true"  rel-id="">删除</option>
+
+
+
+     </select>
+
+    <div class="operation-menu-trigger J-operation-menu-trigger" id="J-operation-menu-1">
+        <div class="current-item">
+            <span class="item-text"></span><span class="icon-pull-down">&nbsp;</span>
+        </div>
+    </div>
+</td>
+
+
+    			</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    			<tr id="J-item-2"
+    			    class="J-item split  ">
+
+
+<td class="time">
+			<p class="time-d">			2017.09.25
+	</p>
+		<p class="time-h ft-gray">			05:56
+	</p>
+	</td>
+
+
+
+
+<td class="memo">
+
+
+</td>
+
+
+
+<td class="name">
+	<p class="consume-title">
+
+
+
+	<a href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=MINITRANS&bizInNo=20170925317848478041&gmtBizCreate=20170925055623"  target="_blank">余额宝-2017.09.24-收益发放</a>
+    </p>
+
+		</td>
+
+
+
+<td class="tradeNo ft-gray">     <p>流水号:20170925317848478041</p>
+</td>
+
+<td class="other">
+  	<p class="name">
+					天弘基金管理有限公司
+			</p>
+	<p class="no ft-gray">
+			</p>
+</td>
+
+
+
+<td class="amount">
+    			<span class="amount-pay">+ 0.01</span>
+	    </td>
+
+
+
+
+<td class="detail">
+
+	    		  <a class="J-amount-more mr-10 record-icon icon-detail J-details-trigger" href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=MINITRANS&bizInNo=20170925317848478041&gmtBizCreate=			20170925055623
+	" seed="trade-details"></a>
+
+
+</td>
+
+
+
+
+<td class="status">
+		<p>交易成功</p>
+		<p></p>
+
+		<p class="ft-gray"></p>
+</td>
+
+
+
+
+
+<td class="action">
+    <select id="J-operation-select-2" class="fn-hide J-operation-select">
+
+
+
+
+
+
+
+
+
+        <option class="split" seed="trade-memo" data-action="edit-memo" data-link="https://consumeprod.alipay.com:443/record/editMemo.htm?bizInNo=20170925317848478041&createDate=			20170925055623
+	&bizType=MINITRANS" rel-id="" data-tip="请勿备注个人敏感信息">备注</option>
+
+
+            <option seed="trade-delete" data-action="delete" data-link="https://consumeprod.alipay.com:443/record/delete.json?record=			2017-09-25 05:56:23
+	~20170925317848478041~MINITRANS"  rel-id="">删除</option>
+
+
+
+     </select>
+
+    <div class="operation-menu-trigger J-operation-menu-trigger" id="J-operation-menu-2">
+        <div class="current-item">
+            <span class="item-text"></span><span class="icon-pull-down">&nbsp;</span>
+        </div>
+    </div>
+</td>
+
+
+    			</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    			<tr id="J-item-3"
+    			    class="J-item  ">
+
+
+<td class="time">
+			<p class="time-d">			2017.09.24
+	</p>
+		<p class="time-h ft-gray">			20:24
+	</p>
+	</td>
+
+
+
+
+<td class="memo">
+
+
+</td>
+
+
+
+<td class="name">
+	<p class="consume-title">
+
+
+
+	<a href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=TRADE&bizInNo=2017092421001004040533463699&gmtBizCreate=20170924202410"  target="_blank">收钱码店主</a>
+    </p>
+
+		</td>
+
+
+
+<td class="tradeNo ft-gray">     <p>订单号:TQP0010403093ac6f88fe42c4b14e97ddba0c8c49 | 交易号:2017092421001004040533463699</p>
+</td>
+
+<td class="other">
+  	<p class="name">
+					黄小健
+			</p>
+	<p class="no ft-gray">
+			</p>
+</td>
+
+
+
+<td class="amount">
+    			<span class="amount-pay">- 214.00</span>
+	    </td>
+
+
+
+
+<td class="detail">
+
+	    		  <a class="J-amount-more mr-10 record-icon icon-detail J-details-trigger" href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=TRADE&bizInNo=2017092421001004040533463699&gmtBizCreate=			20170924202410
+	" seed="trade-details"></a>
+
+
+</td>
+
+
+
+
+<td class="status">
+		<p>交易成功</p>
+		<p></p>
+
+		<p class="ft-gray"></p>
+</td>
+
+
+
+
+
+<td class="action">
+    <select id="J-operation-select-3" class="fn-hide J-operation-select">
+
+
+
+
+
+
+
+
+
+       		        	        	        		<option seed="trade-detail"  data-link="https://lab.alipay.com/consume/queryTradeDetail.htm?tradeNo=2017092421001004040533463699" data-target="_blank">详情</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <option class="split" seed="trade-memo" data-action="edit-memo" data-link="https://consumeprod.alipay.com:443/record/editMemo.htm?bizInNo=2017092421001004040533463699&createDate=			20170924202410
+	&bizType=TRADE" rel-id="" data-tip="请勿备注个人敏感信息">备注</option>
+
+
+            <option seed="trade-delete" data-action="delete" data-link="https://consumeprod.alipay.com:443/record/delete.json?record=			2017-09-24 20:24:10
+	~2017092421001004040533463699~TRADE" data-fund-change="true"  rel-id="">删除</option>
+
+
+
+     </select>
+
+    <div class="operation-menu-trigger J-operation-menu-trigger" id="J-operation-menu-3">
+        <div class="current-item">
+            <span class="item-text"></span><span class="icon-pull-down">&nbsp;</span>
+        </div>
+    </div>
+</td>
+
+
+    			</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    			<tr id="J-item-4"
+    			    class="J-item split  ">
+
+
+<td class="time">
+			<p class="time-d">			2017.09.24
+	</p>
+		<p class="time-h ft-gray">			13:06
+	</p>
+	</td>
+
+
+
+
+<td class="memo">
+
+
+</td>
+
+
+
+<td class="name">
+	<p class="consume-title">
+
+
+
+	<a href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=TRADE&bizInNo=2017092421001004040532434602&gmtBizCreate=20170924130623"  target="_blank">170924P0057_禄鼎记（广州天河店）KP709241306129902</a>
+    </p>
+
+		</td>
+
+
+
+<td class="tradeNo ft-gray">     <p>订单号:2017092425933571 | 交易号:2017092421001004040532434602</p>
+</td>
+
+<td class="other">
+  	<p class="name">
+					广州云藏信息技术有限公司
+			</p>
+	<p class="no ft-gray">
+			</p>
+</td>
+
+
+
+<td class="amount">
+    			<span class="amount-pay">- 238.00</span>
+	    </td>
+
+
+
+
+<td class="detail">
+
+	    		  <a class="J-amount-more mr-10 record-icon icon-detail J-details-trigger" href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=TRADE&bizInNo=2017092421001004040532434602&gmtBizCreate=			20170924130623
+	" seed="trade-details"></a>
+
+
+</td>
+
+
+
+
+<td class="status">
+		<p>交易成功</p>
+		<p></p>
+
+		<p class="ft-gray"></p>
+</td>
+
+
+
+
+
+<td class="action">
+    <select id="J-operation-select-4" class="fn-hide J-operation-select">
+
+
+
+
+
+
+
+
+
+       		        	        	        		<option seed="trade-detail"  data-link="https://lab.alipay.com/consume/queryTradeDetail.htm?tradeNo=2017092421001004040532434602" data-target="_blank">详情</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <option class="split" seed="trade-memo" data-action="edit-memo" data-link="https://consumeprod.alipay.com:443/record/editMemo.htm?bizInNo=2017092421001004040532434602&createDate=			20170924130623
+	&bizType=TRADE" rel-id="" data-tip="请勿备注个人敏感信息">备注</option>
+
+
+            <option seed="trade-delete" data-action="delete" data-link="https://consumeprod.alipay.com:443/record/delete.json?record=			2017-09-24 13:06:23
+	~2017092421001004040532434602~TRADE" data-fund-change="true"  rel-id="">删除</option>
+
+
+
+     </select>
+
+    <div class="operation-menu-trigger J-operation-menu-trigger" id="J-operation-menu-4">
+        <div class="current-item">
+            <span class="item-text"></span><span class="icon-pull-down">&nbsp;</span>
+        </div>
+    </div>
+</td>
+
+
+    			</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    			<tr id="J-item-5"
+    			    class="J-item  ">
+
+
+<td class="time">
+			<p class="time-d">			2017.09.24
+	</p>
+		<p class="time-h ft-gray">			04:40
+	</p>
+	</td>
+
+
+
+
+<td class="memo">
+
+
+</td>
+
+
+
+<td class="name">
+	<p class="consume-title">
+
+
+
+	<a href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=MINITRANS&bizInNo=20170924315778770041&gmtBizCreate=20170924044043"  target="_blank">余额宝-2017.09.23-收益发放</a>
+    </p>
+
+		</td>
+
+
+
+<td class="tradeNo ft-gray">     <p>流水号:20170924315778770041</p>
+</td>
+
+<td class="other">
+  	<p class="name">
+					天弘基金管理有限公司
+			</p>
+	<p class="no ft-gray">
+			</p>
+</td>
+
+
+
+<td class="amount">
+    			<span class="amount-pay">+ 0.01</span>
+	    </td>
+
+
+
+
+<td class="detail">
+
+	    		  <a class="J-amount-more mr-10 record-icon icon-detail J-details-trigger" href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=MINITRANS&bizInNo=20170924315778770041&gmtBizCreate=			20170924044043
+	" seed="trade-details"></a>
+
+
+</td>
+
+
+
+
+<td class="status">
+		<p>交易成功</p>
+		<p></p>
+
+		<p class="ft-gray"></p>
+</td>
+
+
+
+
+
+<td class="action">
+    <select id="J-operation-select-5" class="fn-hide J-operation-select">
+
+
+
+
+
+
+
+
+
+        <option class="split" seed="trade-memo" data-action="edit-memo" data-link="https://consumeprod.alipay.com:443/record/editMemo.htm?bizInNo=20170924315778770041&createDate=			20170924044043
+	&bizType=MINITRANS" rel-id="" data-tip="请勿备注个人敏感信息">备注</option>
+
+
+            <option seed="trade-delete" data-action="delete" data-link="https://consumeprod.alipay.com:443/record/delete.json?record=			2017-09-24 04:40:43
+	~20170924315778770041~MINITRANS"  rel-id="">删除</option>
+
+
+
+     </select>
+
+    <div class="operation-menu-trigger J-operation-menu-trigger" id="J-operation-menu-5">
+        <div class="current-item">
+            <span class="item-text"></span><span class="icon-pull-down">&nbsp;</span>
+        </div>
+    </div>
+</td>
+
+
+    			</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    			<tr id="J-item-6"
+    			    class="J-item split  ">
+
+
+<td class="time">
+			<p class="time-d">			2017.09.23
+	</p>
+		<p class="time-h ft-gray">			21:22
+	</p>
+	</td>
+
+
+
+
+<td class="memo">
+
+
+</td>
+
+
+
+<td class="name">
+	<p class="consume-title">
+
+
+
+	<a href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=TRADE&bizInNo=2017092321001004040531092382&gmtBizCreate=20170923212207"  target="_blank">赛牛炙烧牛排(正佳广场店)消费</a>
+    </p>
+
+		</td>
+
+
+
+<td class="tradeNo ft-gray">     <p>订单号:h4B0A19C3A4A0411DA5F3D6ECADB5839020170923527865720 | 交易号:2017092321001004040531092382</p>
+</td>
+
+<td class="other">
+  	<p class="name">
+					赛牛炙烧牛排(正佳广场店)
+			</p>
+	<p class="no ft-gray">
+			</p>
+</td>
+
+
+
+<td class="amount">
+    			<span class="amount-pay">- 232.00</span>
+	    </td>
+
+
+
+
+<td class="detail">
+
+	    		  <a class="J-amount-more mr-10 record-icon icon-detail J-details-trigger" href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=TRADE&bizInNo=2017092321001004040531092382&gmtBizCreate=			20170923212207
+	" seed="trade-details"></a>
+
+
+</td>
+
+
+
+
+<td class="status">
+		<p>交易成功</p>
+		<p></p>
+
+		<p class="ft-gray"></p>
+</td>
+
+
+
+
+
+<td class="action">
+    <select id="J-operation-select-6" class="fn-hide J-operation-select">
+
+
+
+
+
+
+
+
+
+       		        	        	        		<option seed="trade-detail"  data-link="https://lab.alipay.com/consume/queryTradeDetail.htm?tradeNo=2017092321001004040531092382" data-target="_blank">详情</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <option class="split" seed="trade-memo" data-action="edit-memo" data-link="https://consumeprod.alipay.com:443/record/editMemo.htm?bizInNo=2017092321001004040531092382&createDate=			20170923212207
+	&bizType=TRADE" rel-id="" data-tip="请勿备注个人敏感信息">备注</option>
+
+
+            <option seed="trade-delete" data-action="delete" data-link="https://consumeprod.alipay.com:443/record/delete.json?record=			2017-09-23 21:22:07
+	~2017092321001004040531092382~TRADE" data-fund-change="true"  rel-id="">删除</option>
+
+
+
+     </select>
+
+    <div class="operation-menu-trigger J-operation-menu-trigger" id="J-operation-menu-6">
+        <div class="current-item">
+            <span class="item-text"></span><span class="icon-pull-down">&nbsp;</span>
+        </div>
+    </div>
+</td>
+
+
+    			</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    			<tr id="J-item-7"
+    			    class="J-item  ">
+
+
+<td class="time">
+			<p class="time-d">			2017.09.23
+	</p>
+		<p class="time-h ft-gray">			16:46
+	</p>
+	</td>
+
+
+
+
+<td class="memo">
+
+
+</td>
+
+
+
+<td class="name">
+	<p class="consume-title">
+
+
+
+	<a href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=TRADE&bizInNo=2017092321001004040530378339&gmtBizCreate=20170923164609"  target="_blank">广州全家购物</a>
+    </p>
+
+		</td>
+
+
+
+<td class="tradeNo ft-gray">     <p>订单号:SXA1O27009768466 | 交易号:2017092321001004040530378339</p>
+</td>
+
+<td class="other">
+  	<p class="name">
+					全家便利店(广州区域店)
+			</p>
+	<p class="no ft-gray">
+			</p>
+</td>
+
+
+
+<td class="amount">
+    			<span class="amount-pay">- 10.90</span>
+	    </td>
+
+
+
+
+<td class="detail">
+
+	    		  <a class="J-amount-more mr-10 record-icon icon-detail J-details-trigger" href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=TRADE&bizInNo=2017092321001004040530378339&gmtBizCreate=			20170923164609
+	" seed="trade-details"></a>
+
+
+</td>
+
+
+
+
+<td class="status">
+		<p>交易成功</p>
+		<p></p>
+
+		<p class="ft-gray"></p>
+</td>
+
+
+
+
+
+<td class="action">
+    <select id="J-operation-select-7" class="fn-hide J-operation-select">
+
+
+
+
+
+
+
+
+
+       		        	        	        		<option seed="trade-detail"  data-link="https://lab.alipay.com/consume/queryTradeDetail.htm?tradeNo=2017092321001004040530378339" data-target="_blank">详情</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <option class="split" seed="trade-memo" data-action="edit-memo" data-link="https://consumeprod.alipay.com:443/record/editMemo.htm?bizInNo=2017092321001004040530378339&createDate=			20170923164609
+	&bizType=TRADE" rel-id="" data-tip="请勿备注个人敏感信息">备注</option>
+
+
+            <option seed="trade-delete" data-action="delete" data-link="https://consumeprod.alipay.com:443/record/delete.json?record=			2017-09-23 16:46:09
+	~2017092321001004040530378339~TRADE" data-fund-change="true"  rel-id="">删除</option>
+
+
+
+     </select>
+
+    <div class="operation-menu-trigger J-operation-menu-trigger" id="J-operation-menu-7">
+        <div class="current-item">
+            <span class="item-text"></span><span class="icon-pull-down">&nbsp;</span>
+        </div>
+    </div>
+</td>
+
+
+    			</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    			<tr id="J-item-8"
+    			    class="J-item split  ">
+
+
+<td class="time">
+			<p class="time-d">			2017.09.23
+	</p>
+		<p class="time-h ft-gray">			15:44
+	</p>
+	</td>
+
+
+
+
+<td class="memo">
+
+
+</td>
+
+
+
+<td class="name">
+	<p class="consume-title">
+
+
+
+	<a href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=TRADE&bizInNo=2017092321001004040530258773&gmtBizCreate=20170923154404"  target="_blank">广州奈雪の茶 万菱汇店 店内购物</a>
+    </p>
+
+		</td>
+
+
+
+<td class="tradeNo ft-gray">     <p>订单号:1556245739142344203109074106 | 交易号:2017092321001004040530258773</p>
+</td>
+
+<td class="other">
+  	<p class="name">
+					奈雪の茶(万菱汇店)
+			</p>
+	<p class="no ft-gray">
+			</p>
+</td>
+
+
+
+<td class="amount">
+    			<span class="amount-pay">- 61.00</span>
+	    </td>
+
+
+
+
+<td class="detail">
+
+	    		  <a class="J-amount-more mr-10 record-icon icon-detail J-details-trigger" href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=TRADE&bizInNo=2017092321001004040530258773&gmtBizCreate=			20170923154404
+	" seed="trade-details"></a>
+
+
+</td>
+
+
+
+
+<td class="status">
+		<p>交易成功</p>
+		<p></p>
+
+		<p class="ft-gray"></p>
+</td>
+
+
+
+
+
+<td class="action">
+    <select id="J-operation-select-8" class="fn-hide J-operation-select">
+
+
+
+
+
+
+
+
+
+       		        	        	        		<option seed="trade-detail"  data-link="https://lab.alipay.com/consume/queryTradeDetail.htm?tradeNo=2017092321001004040530258773" data-target="_blank">详情</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <option class="split" seed="trade-memo" data-action="edit-memo" data-link="https://consumeprod.alipay.com:443/record/editMemo.htm?bizInNo=2017092321001004040530258773&createDate=			20170923154404
+	&bizType=TRADE" rel-id="" data-tip="请勿备注个人敏感信息">备注</option>
+
+
+            <option seed="trade-delete" data-action="delete" data-link="https://consumeprod.alipay.com:443/record/delete.json?record=			2017-09-23 15:44:04
+	~2017092321001004040530258773~TRADE" data-fund-change="true"  rel-id="">删除</option>
+
+
+
+     </select>
+
+    <div class="operation-menu-trigger J-operation-menu-trigger" id="J-operation-menu-8">
+        <div class="current-item">
+            <span class="item-text"></span><span class="icon-pull-down">&nbsp;</span>
+        </div>
+    </div>
+</td>
+
+
+    			</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    			<tr id="J-item-9"
+    			    class="J-item  ">
+
+
+<td class="time">
+			<p class="time-d">			2017.09.23
+	</p>
+		<p class="time-h ft-gray">			13:10
+	</p>
+	</td>
+
+
+
+
+<td class="memo">
+
+
+</td>
+
+
+
+<td class="name">
+	<p class="consume-title">
+
+
+
+	<a href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=TRADE&bizInNo=2017092321001004040529935012&gmtBizCreate=20170923131016"  target="_blank">广州天美酒店</a>
+    </p>
+
+		</td>
+
+
+
+<td class="tradeNo ft-gray">     <p>订单号:4557546252-0756180074 | 交易号:2017092321001004040529935012</p>
+</td>
+
+<td class="other">
+  	<p class="name">
+					携程网
+			</p>
+	<p class="no ft-gray">
+			</p>
+</td>
+
+
+
+<td class="amount">
+    			<span class="amount-pay">- 385.00</span>
+	    </td>
+
+
+
+
+<td class="detail">
+
+	    		  <a class="J-amount-more mr-10 record-icon icon-detail J-details-trigger" href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=TRADE&bizInNo=2017092321001004040529935012&gmtBizCreate=			20170923131016
+	" seed="trade-details"></a>
+
+
+</td>
+
+
+
+
+<td class="status">
+		<p>交易成功</p>
+		<p></p>
+
+		<p class="ft-gray"></p>
+</td>
+
+
+
+
+
+<td class="action">
+    <select id="J-operation-select-9" class="fn-hide J-operation-select">
+
+
+
+
+
+
+
+
+
+       		        	        	        		<option seed="trade-detail"  data-link="https://lab.alipay.com/consume/queryTradeDetail.htm?tradeNo=2017092321001004040529935012" data-target="_blank">详情</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <option class="split" seed="trade-memo" data-action="edit-memo" data-link="https://consumeprod.alipay.com:443/record/editMemo.htm?bizInNo=2017092321001004040529935012&createDate=			20170923131016
+	&bizType=TRADE" rel-id="" data-tip="请勿备注个人敏感信息">备注</option>
+
+
+            <option seed="trade-delete" data-action="delete" data-link="https://consumeprod.alipay.com:443/record/delete.json?record=			2017-09-23 13:10:16
+	~2017092321001004040529935012~TRADE" data-fund-change="true"  rel-id="">删除</option>
+
+
+            	<option seed="download-receipt" data-link=https://consumeprod.alipay.com:443/voucher/produce.htm?voucherType=receipt&requestString=TRADE%3B2017092321001004040529935012%3B1506143416000 data-target="_self">电子回单</option>
+
+     </select>
+
+    <div class="operation-menu-trigger J-operation-menu-trigger" id="J-operation-menu-9">
+        <div class="current-item">
+            <span class="item-text"></span><span class="icon-pull-down">&nbsp;</span>
+        </div>
+    </div>
+</td>
+
+
+    			</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    			<tr id="J-item-10"
+    			    class="J-item split  ">
+
+
+<td class="time">
+			<p class="time-d">			2017.09.23
+	</p>
+		<p class="time-h ft-gray">			08:53
+	</p>
+	</td>
+
+
+
+
+<td class="memo">
+
+
+</td>
+
+
+
+<td class="name">
+	<p class="consume-title">
+
+
+
+	<a href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=MINITRANS&bizInNo=20170923314772654041&gmtBizCreate=20170923085316"  target="_blank">余额宝-2017.09.22-收益发放</a>
+    </p>
+
+		</td>
+
+
+
+<td class="tradeNo ft-gray">     <p>流水号:20170923314772654041</p>
+</td>
+
+<td class="other">
+  	<p class="name">
+					天弘基金管理有限公司
+			</p>
+	<p class="no ft-gray">
+			</p>
+</td>
+
+
+
+<td class="amount">
+    			<span class="amount-pay">+ 0.01</span>
+	    </td>
+
+
+
+
+<td class="detail">
+
+	    		  <a class="J-amount-more mr-10 record-icon icon-detail J-details-trigger" href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=MINITRANS&bizInNo=20170923314772654041&gmtBizCreate=			20170923085316
+	" seed="trade-details"></a>
+
+
+</td>
+
+
+
+
+<td class="status">
+		<p>交易成功</p>
+		<p></p>
+
+		<p class="ft-gray"></p>
+</td>
+
+
+
+
+
+<td class="action">
+    <select id="J-operation-select-10" class="fn-hide J-operation-select">
+
+
+
+
+
+
+
+
+
+        <option class="split" seed="trade-memo" data-action="edit-memo" data-link="https://consumeprod.alipay.com:443/record/editMemo.htm?bizInNo=20170923314772654041&createDate=			20170923085316
+	&bizType=MINITRANS" rel-id="" data-tip="请勿备注个人敏感信息">备注</option>
+
+
+            <option seed="trade-delete" data-action="delete" data-link="https://consumeprod.alipay.com:443/record/delete.json?record=			2017-09-23 08:53:16
+	~20170923314772654041~MINITRANS"  rel-id="">删除</option>
+
+
+
+     </select>
+
+    <div class="operation-menu-trigger J-operation-menu-trigger" id="J-operation-menu-10">
+        <div class="current-item">
+            <span class="item-text"></span><span class="icon-pull-down">&nbsp;</span>
+        </div>
+    </div>
+</td>
+
+
+    			</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    			<tr id="J-item-11"
+    			    class="J-item  ">
+
+
+<td class="time">
+			<p class="time-d">			2017.09.22
+	</p>
+		<p class="time-h ft-gray">			19:54
+	</p>
+	</td>
+
+
+
+
+<td class="memo">
+
+
+</td>
+
+
+
+<td class="name">
+	<p class="consume-title">
+
+
+
+	<a href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=TRADE&bizInNo=2017092221001004040528532770&gmtBizCreate=20170922195459"  target="_blank">滴滴车费-车主</a>
+    </p>
+
+		</td>
+
+
+
+<td class="tradeNo ft-gray">     <p>订单号:150_1_8004014BC76DBAB_59C4FA13 | 交易号:2017092221001004040528532770</p>
+</td>
+
+<td class="other">
+  	<p class="name">
+					北京小桔科技有限公司
+			</p>
+	<p class="no ft-gray">
+			</p>
+</td>
+
+
+
+<td class="amount">
+    			<span class="amount-pay">- 29.50</span>
+	    </td>
+
+
+
+
+<td class="detail">
+
+	    		  <a class="J-amount-more mr-10 record-icon icon-detail J-details-trigger" href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=TRADE&bizInNo=2017092221001004040528532770&gmtBizCreate=			20170922195459
+	" seed="trade-details"></a>
+
+
+</td>
+
+
+
+
+<td class="status">
+		<p>交易成功</p>
+		<p></p>
+
+		<p class="ft-gray"></p>
+</td>
+
+
+
+
+
+<td class="action">
+    <select id="J-operation-select-11" class="fn-hide J-operation-select">
+
+
+
+
+
+
+
+
+
+       		        	        	        		<option seed="trade-detail"  data-link="https://lab.alipay.com/consume/queryTradeDetail.htm?tradeNo=2017092221001004040528532770" data-target="_blank">详情</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <option class="split" seed="trade-memo" data-action="edit-memo" data-link="https://consumeprod.alipay.com:443/record/editMemo.htm?bizInNo=2017092221001004040528532770&createDate=			20170922195459
+	&bizType=TRADE" rel-id="" data-tip="请勿备注个人敏感信息">备注</option>
+
+
+            <option seed="trade-delete" data-action="delete" data-link="https://consumeprod.alipay.com:443/record/delete.json?record=			2017-09-22 19:54:59
+	~2017092221001004040528532770~TRADE" data-fund-change="true"  rel-id="">删除</option>
+
+
+
+     </select>
+
+    <div class="operation-menu-trigger J-operation-menu-trigger" id="J-operation-menu-11">
+        <div class="current-item">
+            <span class="item-text"></span><span class="icon-pull-down">&nbsp;</span>
+        </div>
+    </div>
+</td>
+
+
+    			</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    			<tr id="J-item-12"
+    			    class="J-item split  ">
+
+
+<td class="time">
+			<p class="time-d">			2017.09.22
+	</p>
+		<p class="time-h ft-gray">			12:36
+	</p>
+	</td>
+
+
+
+
+<td class="memo">
+
+
+</td>
+
+
+
+<td class="name">
+	<p class="consume-title">
+
+
+
+	<a href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=TRADE&bizInNo=2017092221001004040527508408&gmtBizCreate=20170922123620"  target="_blank">广州全家购物</a>
+    </p>
+
+		</td>
+
+
+
+<td class="tradeNo ft-gray">     <p>订单号:SXA1O34619677644 | 交易号:2017092221001004040527508408</p>
+</td>
+
+<td class="other">
+  	<p class="name">
+					全家便利店(广州区域店)
+			</p>
+	<p class="no ft-gray">
+			</p>
+</td>
+
+
+
+<td class="amount">
+    			<span class="amount-pay">- 16.51</span>
+	    </td>
+
+
+
+
+<td class="detail">
+
+	    		  <a class="J-amount-more mr-10 record-icon icon-detail J-details-trigger" href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=TRADE&bizInNo=2017092221001004040527508408&gmtBizCreate=			20170922123620
+	" seed="trade-details"></a>
+
+
+</td>
+
+
+
+
+<td class="status">
+		<p>交易成功</p>
+		<p></p>
+
+		<p class="ft-gray"></p>
+</td>
+
+
+
+
+
+<td class="action">
+    <select id="J-operation-select-12" class="fn-hide J-operation-select">
+
+
+
+
+
+
+
+
+
+       		        	        	        		<option seed="trade-detail"  data-link="https://lab.alipay.com/consume/queryTradeDetail.htm?tradeNo=2017092221001004040527508408" data-target="_blank">详情</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <option class="split" seed="trade-memo" data-action="edit-memo" data-link="https://consumeprod.alipay.com:443/record/editMemo.htm?bizInNo=2017092221001004040527508408&createDate=			20170922123620
+	&bizType=TRADE" rel-id="" data-tip="请勿备注个人敏感信息">备注</option>
+
+
+            <option seed="trade-delete" data-action="delete" data-link="https://consumeprod.alipay.com:443/record/delete.json?record=			2017-09-22 12:36:20
+	~2017092221001004040527508408~TRADE" data-fund-change="true"  rel-id="">删除</option>
+
+
+
+     </select>
+
+    <div class="operation-menu-trigger J-operation-menu-trigger" id="J-operation-menu-12">
+        <div class="current-item">
+            <span class="item-text"></span><span class="icon-pull-down">&nbsp;</span>
+        </div>
+    </div>
+</td>
+
+
+    			</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    			<tr id="J-item-13"
+    			    class="J-item  ">
+
+
+<td class="time">
+			<p class="time-d">			2017.09.22
+	</p>
+		<p class="time-h ft-gray">			09:26
+	</p>
+	</td>
+
+
+
+
+<td class="memo">
+
+
+</td>
+
+
+
+<td class="name">
+	<p class="consume-title">
+
+
+
+	<a href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=TRADE&bizInNo=2017092221001004040527021765&gmtBizCreate=20170922092646"  target="_blank">滴滴车费-车主</a>
+    </p>
+
+		</td>
+
+
+
+<td class="tradeNo ft-gray">     <p>订单号:150_1_8004014BA8B5B62_59C466D6 | 交易号:2017092221001004040527021765</p>
+</td>
+
+<td class="other">
+  	<p class="name">
+					北京小桔科技有限公司
+			</p>
+	<p class="no ft-gray">
+			</p>
+</td>
+
+
+
+<td class="amount">
+    			<span class="amount-pay">- 24.60</span>
+	    </td>
+
+
+
+
+<td class="detail">
+
+	    		  <a class="J-amount-more mr-10 record-icon icon-detail J-details-trigger" href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=TRADE&bizInNo=2017092221001004040527021765&gmtBizCreate=			20170922092646
+	" seed="trade-details"></a>
+
+
+</td>
+
+
+
+
+<td class="status">
+		<p>交易成功</p>
+		<p></p>
+
+		<p class="ft-gray"></p>
+</td>
+
+
+
+
+
+<td class="action">
+    <select id="J-operation-select-13" class="fn-hide J-operation-select">
+
+
+
+
+
+
+
+
+
+       		        	        	        		<option seed="trade-detail"  data-link="https://lab.alipay.com/consume/queryTradeDetail.htm?tradeNo=2017092221001004040527021765" data-target="_blank">详情</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <option class="split" seed="trade-memo" data-action="edit-memo" data-link="https://consumeprod.alipay.com:443/record/editMemo.htm?bizInNo=2017092221001004040527021765&createDate=			20170922092646
+	&bizType=TRADE" rel-id="" data-tip="请勿备注个人敏感信息">备注</option>
+
+
+            <option seed="trade-delete" data-action="delete" data-link="https://consumeprod.alipay.com:443/record/delete.json?record=			2017-09-22 09:26:46
+	~2017092221001004040527021765~TRADE" data-fund-change="true"  rel-id="">删除</option>
+
+
+
+     </select>
+
+    <div class="operation-menu-trigger J-operation-menu-trigger" id="J-operation-menu-13">
+        <div class="current-item">
+            <span class="item-text"></span><span class="icon-pull-down">&nbsp;</span>
+        </div>
+    </div>
+</td>
+
+
+    			</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    			<tr id="J-item-14"
+    			    class="J-item split  ">
+
+
+<td class="time">
+			<p class="time-d">			2017.09.22
+	</p>
+		<p class="time-h ft-gray">			08:32
+	</p>
+	</td>
+
+
+
+
+<td class="memo">
+
+
+</td>
+
+
+
+<td class="name">
+	<p class="consume-title">
+
+
+
+	<a href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=PREAUTHPAY&bizInNo=20170922725267292602&gmtBizCreate=20170922083208"  target="_blank">LAIFENQI</a>
+    </p>
+
+		</td>
+
+
+
+<td class="tradeNo ft-gray">     <p>流水号:20170922725267292602</p>
+</td>
+
+<td class="other">
+  	<p class="name">
+					赣州快乐分期网络服务有限公司
+			</p>
+	<p class="no ft-gray">
+			</p>
+</td>
+
+
+
+<td class="amount">
+    			<span class="amount-pay">- 92.30</span>
+	    </td>
+
+
+
+
+<td class="detail">
+
+	    		  <a class="J-amount-more mr-10 record-icon icon-detail J-details-trigger" href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=PREAUTHPAY&bizInNo=20170922725267292602&gmtBizCreate=			20170922083208
+	" seed="trade-details"></a>
+
+
+</td>
+
+
+
+
+<td class="status">
+		<p>已付款</p>
+		<p></p>
+
+		<p class="ft-gray"></p>
+</td>
+
+
+
+
+
+<td class="action">
+    <select id="J-operation-select-14" class="fn-hide J-operation-select">
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <option class="split" seed="trade-memo" data-action="edit-memo" data-link="https://consumeprod.alipay.com:443/record/editMemo.htm?bizInNo=20170922725267292602&createDate=			20170922083208
+	&bizType=PREAUTHPAY" rel-id="" data-tip="请勿备注个人敏感信息">备注</option>
+
+
+            <option seed="trade-delete" data-action="delete" data-link="https://consumeprod.alipay.com:443/record/delete.json?record=			2017-09-22 08:32:08
+	~20170922725267292602~PREAUTHPAY" data-fund-change="true"  rel-id="">删除</option>
+
+
+
+     </select>
+
+    <div class="operation-menu-trigger J-operation-menu-trigger" id="J-operation-menu-14">
+        <div class="current-item">
+            <span class="item-text"></span><span class="icon-pull-down">&nbsp;</span>
+        </div>
+    </div>
+</td>
+
+
+    			</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    			<tr id="J-item-15"
+    			    class="J-item  ">
+
+
+<td class="time">
+			<p class="time-d">			2017.09.22
+	</p>
+		<p class="time-h ft-gray">			06:33
+	</p>
+	</td>
+
+
+
+
+<td class="memo">
+
+
+</td>
+
+
+
+<td class="name">
+	<p class="consume-title">
+
+
+
+	<a href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=MINITRANS&bizInNo=20170922312501155041&gmtBizCreate=20170922063328"  target="_blank">余额宝-2017.09.21-收益发放</a>
+    </p>
+
+		</td>
+
+
+
+<td class="tradeNo ft-gray">     <p>流水号:20170922312501155041</p>
+</td>
+
+<td class="other">
+  	<p class="name">
+					天弘基金管理有限公司
+			</p>
+	<p class="no ft-gray">
+			</p>
+</td>
+
+
+
+<td class="amount">
+    			<span class="amount-pay">+ 0.01</span>
+	    </td>
+
+
+
+
+<td class="detail">
+
+	    		  <a class="J-amount-more mr-10 record-icon icon-detail J-details-trigger" href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=MINITRANS&bizInNo=20170922312501155041&gmtBizCreate=			20170922063328
+	" seed="trade-details"></a>
+
+
+</td>
+
+
+
+
+<td class="status">
+		<p>交易成功</p>
+		<p></p>
+
+		<p class="ft-gray"></p>
+</td>
+
+
+
+
+
+<td class="action">
+    <select id="J-operation-select-15" class="fn-hide J-operation-select">
+
+
+
+
+
+
+
+
+
+        <option class="split" seed="trade-memo" data-action="edit-memo" data-link="https://consumeprod.alipay.com:443/record/editMemo.htm?bizInNo=20170922312501155041&createDate=			20170922063328
+	&bizType=MINITRANS" rel-id="" data-tip="请勿备注个人敏感信息">备注</option>
+
+
+            <option seed="trade-delete" data-action="delete" data-link="https://consumeprod.alipay.com:443/record/delete.json?record=			2017-09-22 06:33:28
+	~20170922312501155041~MINITRANS"  rel-id="">删除</option>
+
+
+
+     </select>
+
+    <div class="operation-menu-trigger J-operation-menu-trigger" id="J-operation-menu-15">
+        <div class="current-item">
+            <span class="item-text"></span><span class="icon-pull-down">&nbsp;</span>
+        </div>
+    </div>
+</td>
+
+
+    			</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    			<tr id="J-item-16"
+    			    class="J-item split  ">
+
+
+<td class="time">
+			<p class="time-d">			2017.09.21
+	</p>
+		<p class="time-h ft-gray">			20:01
+	</p>
+	</td>
+
+
+
+
+<td class="memo">
+
+
+</td>
+
+
+
+<td class="name">
+	<p class="consume-title">
+
+
+
+	<a href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=TRADE&bizInNo=2017092121001004040526021244&gmtBizCreate=20170921200157"  target="_blank">大煌兄芝士焗饭外卖订单</a>
+    </p>
+
+		</td>
+
+
+
+<td class="tradeNo ft-gray">     <p>订单号:17092120377073369210 | 交易号:2017092121001004040526021244</p>
+</td>
+
+<td class="other">
+  	<p class="name">
+					饿了么
+			</p>
+	<p class="no ft-gray">
+			</p>
+</td>
+
+
+
+<td class="amount">
+    			<span class="amount-pay">- 17.80</span>
+	    </td>
+
+
+
+
+<td class="detail">
+
+	    		  <a class="J-amount-more mr-10 record-icon icon-detail J-details-trigger" href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=TRADE&bizInNo=2017092121001004040526021244&gmtBizCreate=			20170921200157
+	" seed="trade-details"></a>
+
+
+</td>
+
+
+
+
+<td class="status">
+		<p>交易成功</p>
+		<p></p>
+
+		<p class="ft-gray"></p>
+</td>
+
+
+
+
+
+<td class="action">
+    <select id="J-operation-select-16" class="fn-hide J-operation-select">
+
+
+
+
+
+
+
+
+
+       		        	        	        		<option seed="trade-detail"  data-link="https://lab.alipay.com/consume/queryTradeDetail.htm?tradeNo=2017092121001004040526021244" data-target="_blank">详情</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <option class="split" seed="trade-memo" data-action="edit-memo" data-link="https://consumeprod.alipay.com:443/record/editMemo.htm?bizInNo=2017092121001004040526021244&createDate=			20170921200157
+	&bizType=TRADE" rel-id="" data-tip="请勿备注个人敏感信息">备注</option>
+
+
+            <option seed="trade-delete" data-action="delete" data-link="https://consumeprod.alipay.com:443/record/delete.json?record=			2017-09-21 20:01:57
+	~2017092121001004040526021244~TRADE" data-fund-change="true"  rel-id="">删除</option>
+
+
+
+     </select>
+
+    <div class="operation-menu-trigger J-operation-menu-trigger" id="J-operation-menu-16">
+        <div class="current-item">
+            <span class="item-text"></span><span class="icon-pull-down">&nbsp;</span>
+        </div>
+    </div>
+</td>
+
+
+    			</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    			<tr id="J-item-17"
+    			    class="J-item  ">
+
+
+<td class="time">
+			<p class="time-d">			2017.09.21
+	</p>
+		<p class="time-h ft-gray">			19:21
+	</p>
+	</td>
+
+
+
+
+<td class="memo">
+
+
+</td>
+
+
+
+<td class="name">
+	<p class="consume-title">
+
+
+
+	<a href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=TRADE&bizInNo=2017092121001004040525934936&gmtBizCreate=20170921192145"  target="_blank">滴滴车费-车主</a>
+    </p>
+
+		</td>
+
+
+
+<td class="tradeNo ft-gray">     <p>订单号:150_1_8004014B946B656_59C3A0C9 | 交易号:2017092121001004040525934936</p>
+</td>
+
+<td class="other">
+  	<p class="name">
+					北京小桔科技有限公司
+			</p>
+	<p class="no ft-gray">
+			</p>
+</td>
+
+
+
+<td class="amount">
+    			<span class="amount-pay">- 29.80</span>
+	    </td>
+
+
+
+
+<td class="detail">
+
+	    		  <a class="J-amount-more mr-10 record-icon icon-detail J-details-trigger" href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=TRADE&bizInNo=2017092121001004040525934936&gmtBizCreate=			20170921192145
+	" seed="trade-details"></a>
+
+
+</td>
+
+
+
+
+<td class="status">
+		<p>交易成功</p>
+		<p></p>
+
+		<p class="ft-gray"></p>
+</td>
+
+
+
+
+
+<td class="action">
+    <select id="J-operation-select-17" class="fn-hide J-operation-select">
+
+
+
+
+
+
+
+
+
+       		        	        	        		<option seed="trade-detail"  data-link="https://lab.alipay.com/consume/queryTradeDetail.htm?tradeNo=2017092121001004040525934936" data-target="_blank">详情</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <option class="split" seed="trade-memo" data-action="edit-memo" data-link="https://consumeprod.alipay.com:443/record/editMemo.htm?bizInNo=2017092121001004040525934936&createDate=			20170921192145
+	&bizType=TRADE" rel-id="" data-tip="请勿备注个人敏感信息">备注</option>
+
+
+            <option seed="trade-delete" data-action="delete" data-link="https://consumeprod.alipay.com:443/record/delete.json?record=			2017-09-21 19:21:45
+	~2017092121001004040525934936~TRADE" data-fund-change="true"  rel-id="">删除</option>
+
+
+
+     </select>
+
+    <div class="operation-menu-trigger J-operation-menu-trigger" id="J-operation-menu-17">
+        <div class="current-item">
+            <span class="item-text"></span><span class="icon-pull-down">&nbsp;</span>
+        </div>
+    </div>
+</td>
+
+
+    			</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    			<tr id="J-item-18"
+    			    class="J-item split  ">
+
+
+<td class="time">
+			<p class="time-d">			2017.09.21
+	</p>
+		<p class="time-h ft-gray">			12:31
+	</p>
+	</td>
+
+
+
+
+<td class="memo">
+
+
+</td>
+
+
+
+<td class="name">
+	<p class="consume-title">
+
+
+
+	<a href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=TRADE&bizInNo=2017092121001004040524969952&gmtBizCreate=20170921123112"  target="_blank">广州全家购物</a>
+    </p>
+
+		</td>
+
+
+
+<td class="tradeNo ft-gray">     <p>订单号:SXA1O34548623544 | 交易号:2017092121001004040524969952</p>
+</td>
+
+<td class="other">
+  	<p class="name">
+					全家便利店(广州区域店)
+			</p>
+	<p class="no ft-gray">
+			</p>
+</td>
+
+
+
+<td class="amount">
+    			<span class="amount-pay">- 17.90</span>
+	    </td>
+
+
+
+
+<td class="detail">
+
+	    		  <a class="J-amount-more mr-10 record-icon icon-detail J-details-trigger" href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=TRADE&bizInNo=2017092121001004040524969952&gmtBizCreate=			20170921123112
+	" seed="trade-details"></a>
+
+
+</td>
+
+
+
+
+<td class="status">
+		<p>交易成功</p>
+		<p></p>
+
+		<p class="ft-gray"></p>
+</td>
+
+
+
+
+
+<td class="action">
+    <select id="J-operation-select-18" class="fn-hide J-operation-select">
+
+
+
+
+
+
+
+
+
+       		        	        	        		<option seed="trade-detail"  data-link="https://lab.alipay.com/consume/queryTradeDetail.htm?tradeNo=2017092121001004040524969952" data-target="_blank">详情</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <option class="split" seed="trade-memo" data-action="edit-memo" data-link="https://consumeprod.alipay.com:443/record/editMemo.htm?bizInNo=2017092121001004040524969952&createDate=			20170921123112
+	&bizType=TRADE" rel-id="" data-tip="请勿备注个人敏感信息">备注</option>
+
+
+            <option seed="trade-delete" data-action="delete" data-link="https://consumeprod.alipay.com:443/record/delete.json?record=			2017-09-21 12:31:12
+	~2017092121001004040524969952~TRADE" data-fund-change="true"  rel-id="">删除</option>
+
+
+
+     </select>
+
+    <div class="operation-menu-trigger J-operation-menu-trigger" id="J-operation-menu-18">
+        <div class="current-item">
+            <span class="item-text"></span><span class="icon-pull-down">&nbsp;</span>
+        </div>
+    </div>
+</td>
+
+
+    			</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    			<tr id="J-item-19"
+    			    class="J-item  ">
+
+
+<td class="time">
+			<p class="time-d">			2017.09.21
+	</p>
+		<p class="time-h ft-gray">			09:40
+	</p>
+	</td>
+
+
+
+
+<td class="memo">
+
+
+</td>
+
+
+
+<td class="name">
+	<p class="consume-title">
+
+
+
+	<a href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=TRADE&bizInNo=2017092121001004040524502217&gmtBizCreate=20170921094048"  target="_blank">711Payment</a>
+    </p>
+
+		</td>
+
+
+
+<td class="tradeNo ft-gray">     <p>订单号:711000480016429220170921094052 | 交易号:2017092121001004040524502217</p>
+</td>
+
+<td class="other">
+  	<p class="name">
+					7-Eleven(盈信广场)
+			</p>
+	<p class="no ft-gray">
+			</p>
+</td>
+
+
+
+<td class="amount">
+    			<span class="amount-pay">- 11.59</span>
+	    </td>
+
+
+
+
+<td class="detail">
+
+	    		  <a class="J-amount-more mr-10 record-icon icon-detail J-details-trigger" href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=TRADE&bizInNo=2017092121001004040524502217&gmtBizCreate=			20170921094048
+	" seed="trade-details"></a>
+
+
+</td>
+
+
+
+
+<td class="status">
+		<p>交易成功</p>
+		<p></p>
+
+		<p class="ft-gray"></p>
+</td>
+
+
+
+
+
+<td class="action">
+    <select id="J-operation-select-19" class="fn-hide J-operation-select">
+
+
+
+
+
+
+
+
+
+       		        	        	        		<option seed="trade-detail"  data-link="https://lab.alipay.com/consume/queryTradeDetail.htm?tradeNo=2017092121001004040524502217" data-target="_blank">详情</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <option class="split" seed="trade-memo" data-action="edit-memo" data-link="https://consumeprod.alipay.com:443/record/editMemo.htm?bizInNo=2017092121001004040524502217&createDate=			20170921094048
+	&bizType=TRADE" rel-id="" data-tip="请勿备注个人敏感信息">备注</option>
+
+
+            <option seed="trade-delete" data-action="delete" data-link="https://consumeprod.alipay.com:443/record/delete.json?record=			2017-09-21 09:40:48
+	~2017092121001004040524502217~TRADE" data-fund-change="true"  rel-id="">删除</option>
+
+
+
+     </select>
+
+    <div class="operation-menu-trigger J-operation-menu-trigger" id="J-operation-menu-19">
+        <div class="current-item">
+            <span class="item-text"></span><span class="icon-pull-down">&nbsp;</span>
+        </div>
+    </div>
+</td>
+
+
+    			</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    			<tr id="J-item-20"
+    			    class="J-item split  ">
+
+
+<td class="time">
+			<p class="time-d">			2017.09.21
+	</p>
+		<p class="time-h ft-gray">			09:37
+	</p>
+	</td>
+
+
+
+
+<td class="memo">
+
+
+</td>
+
+
+
+<td class="name">
+	<p class="consume-title">
+
+
+
+	<a href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=TRADE&bizInNo=2017092121001004040524486235&gmtBizCreate=20170921093731"  target="_blank">滴滴快车-刘桃孟师傅</a>
+    </p>
+
+		</td>
+
+
+
+<td class="tradeNo ft-gray">     <p>订单号:210_201709210585149801431679 | 交易号:2017092121001004040524486235</p>
+</td>
+
+<td class="other">
+  	<p class="name">
+					滴滴出行科技有限公司
+			</p>
+	<p class="no ft-gray">
+			</p>
+</td>
+
+
+
+<td class="amount">
+    			<span class="amount-pay">- 45.06</span>
+	    </td>
+
+
+
+
+<td class="detail">
+
+	    		  <a class="J-amount-more mr-10 record-icon icon-detail J-details-trigger" href="https://consumeprod.alipay.com:443/record/detail/simpleDetail.htm?bizType=TRADE&bizInNo=2017092121001004040524486235&gmtBizCreate=			20170921093731
+	" seed="trade-details"></a>
+
+
+</td>
+
+
+
+
+<td class="status">
+		<p>交易成功</p>
+		<p></p>
+
+		<p class="ft-gray"></p>
+</td>
+
+
+
+
+
+<td class="action">
+    <select id="J-operation-select-20" class="fn-hide J-operation-select">
+
+
+
+
+
+
+
+
+
+       		        	        	        		<option seed="trade-detail"  data-link="https://lab.alipay.com/consume/queryTradeDetail.htm?tradeNo=2017092121001004040524486235" data-target="_blank">详情</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <option class="split" seed="trade-memo" data-action="edit-memo" data-link="https://consumeprod.alipay.com:443/record/editMemo.htm?bizInNo=2017092121001004040524486235&createDate=			20170921093731
+	&bizType=TRADE" rel-id="" data-tip="请勿备注个人敏感信息">备注</option>
+
+
+            <option seed="trade-delete" data-action="delete" data-link="https://consumeprod.alipay.com:443/record/delete.json?record=			2017-09-21 09:37:31
+	~2017092121001004040524486235~TRADE" data-fund-change="true"  rel-id="">删除</option>
+
+
+
+     </select>
+
+    <div class="operation-menu-trigger J-operation-menu-trigger" id="J-operation-menu-20">
+        <div class="current-item">
+            <span class="item-text"></span><span class="icon-pull-down">&nbsp;</span>
+        </div>
+    </div>
+</td>
+
+
+    			</tr>
+
+
+
+
+
+
+                       		</tbody>
+
+
+                    </table>
+
+
+
+
+
+            <script>
+    seajs.use('consumeprod/record/1.0.8/knight', function(knight) {
+        var knightObj = knight || window.knight;
+        var $ = knightObj.$,
+            PopTip = knightObj.alipay.PopTip;
+
+            Emoji = knightObj.biz.Emoji;
+
+        $(function() {
+            $('.J-memo-trigger').each(function(i, trigger) {
+                trigger = $(trigger);
+
+                // 鼠标悬浮在 pop 框和 trigger 链接上都不消失，离开后消失。
+
+                var p = new PopTip({
+                    target: trigger,
+                    type: 'text',
+                    content: function() {
+                        var content = trigger.next('.content-memo');
+
+                        var entry = content.find('.memo-info');
+                        //注销emoji
+                        //Emoji.render(entry);
+
+                        return content.html();
+                    },
+                    width: 235,
+                    arrowPosition: 7,
+                    closable: false
+                });
+                var h;
+                $(trigger).add(p.element).hover(function(e) {
+                    clearTimeout(h);
+                    p.show();
+                    }, function(e) {
+                    // 设置 200 ms 延迟使用户有时间用鼠标滑过 trigger 链接和 pop 框直接的缝隙而不隐藏。
+                    h = setTimeout(function() {
+                        p.hide();
+                    }, 200);
+                });
+
+
+                // 点击 trigger 链接，弹出编辑备注 xbox
+
+                var Xbox = knightObj.alipay.Xbox;
+                var iframeurl = trigger.attr('href');
+                var x = new Xbox({
+                    trigger: trigger,
+                    width: 520,
+                    height: 414,
+                    isOld: true,
+                    classPrefix:"ui-newxbox",
+                    content: iframeurl
+                });
+
+                x.after('show', function() {
+                    x.element.find('iframe')[0].on('change:height', function(h) {
+                        x.set('height', h);
+                    });
+                });
+
+
+            });
+        });
+
+    });
+</script>
+        <script>
+seajs.use('consumeprod/record/1.0.8/knight', function(knight) {
+    var $ = knight.$,
+        ZeroClipboard = knight.biz.zeroclipboard,
+        Overlay = knight.arale.Overlay;
+
+    ZeroClipboard.config({
+		// 由于 zeroclipboard 组件同源策略及XSS控制原因，此处必须使用1.3.2版本的ZeroClipboard.swf
+        moviePath: 'https://a.alipayobjects.com:443/user-nocache/gallery/zeroclipboard/1.3.2/ZeroClipboard.swf',
+		cacheBust: false,
+        forceHandCursor: true
+    });
+
+    $(function() {
+        var triggers = $('.J-tradeNo');
+        var client = new ZeroClipboard(triggers);
+        var showTip = function() {
+            var o = new Overlay({
+                template: '<div class="ui-tiptext-container ui-tiptext-container-success" style="padding:5px 8px;width:67px;">' + '<p class="ui-tiptext ui-tiptext-success" style="padding:0 0 0 17px;"><span class="ui-tiptext-icon"></span>复制成功</p>' + '</div>'
+            });
+
+            o.after('show', function() {
+                setTimeout(function() {
+                    o.hide();
+                }, 1500);
+            });
+
+            return function(trigger) {
+                o.set('align', {
+                    selfXY: [-12, 20],
+                    baseElement: trigger,
+                    baseXY: ['100%', '100%']
+                });
+                o.set('parentNode', trigger.parent('.J-tradeNo-container'));
+                o.show();
+            }
+        }();
+
+        triggers.click(function(e) {
+            e.preventDefault();
+        });
+
+        client.on('load', function(client) {
+            /*client.on('datarequested', function(client) {
+          client.setText(trigger.attr('title'));
+        });*/
+
+            client.on('complete', function(client, args) {
+                showTip($(this));
+            });
+        });
+
+        client.on('wrongflash noflash', function() {
+            ZeroClipboard.destroy();
+        });
+    });
+});
+</script>
+<script>
+seajs.use('consumeprod/record/1.0.8/knight', function(knight) {
+    var $ = knight.$,
+        jQuery = $;
+
+
+    $(function() {
+        var Xbox = knight.alipay.Xbox;
+
+
+        $('.J-add-contact').each(function(i, trigger) {
+            trigger = $(trigger);
+            var x = new Xbox({
+                trigger: trigger,
+                content: trigger.attr('href'),
+                classPrefix:"ui-newxbox",
+                closeLink: null,
+                isOld: true
+            });
+
+            var executed = false;
+            x.on('complete:show', function() {
+                if (executed) return;
+                var iframe = $('iframe', x.element);
+                // iframe 锟斤拷锟斤拷锟斤拷锟较碉拷顺晒锟斤拷锟结触锟斤拷锟斤拷锟铰硷拷
+                iframe.get(0).on('add-contact-success', function(msg) {
+                    var Overlay = knight.arale.Overlay;
+
+                    var o = new Overlay({
+                        template: '<div class="ui-tiptext-container ui-tiptext-container-success" style="padding:6px 0;position:fixed">' +
+                                      '<p class="ui-tiptext">' + msg + '</p>' +
+                                  '</div>',
+                        align: {
+                            selfXY: ['50%', 0],
+                            baseXY: ['50%', 0]
+                        }
+                    });
+                    o.show();
+                    setTimeout(function() {
+                        o.hide();
+                        o.destroy();
+                    }, 2000);
+
+                    var cardNo = jQuery.trim(trigger.attr('data-card-no'));
+                    if (cardNo) {
+                        $('.J-add-contact[data-card-no=' + cardNo + ']').hide();
+                    } else {
+                        trigger.hide();
+                    }
+                });
+            });
+        });
+
+        var apww = knight.alipay.apww;
+	    apww.init({trigger: '.J-open-ww', classPrefix: 'icon-ww'});
+    });
+
+});
+</script>
+
+        <!-- CMS:消费记录产品系统cms/消费记录/控制是否hover显示明细开始:record/canHoverTriggerDetail.vm -->
+<!-- CMS:消费记录产品系统cms/消费记录/控制是否hover显示明细结束:record/canHoverTriggerDetail.vm --><div class="ui-poptip fn-hide" id="detaiPoptip">
+    <div class="ui-poptip-shadow">
+    <div class="ui-poptip-container">
+        <div class="ui-poptip-arrow ui-poptip-arrow-7">
+            <em>◆</em>
+            <span>◆</span>
+        </div>
+        <div class="ui-poptip-content" data-role="content">
+
+        </div>
+    </div>
+    </div>
+</div>
+<script>
+    seajs.use('consumeprod/record/1.0.8/knight', function(knight) {
+        var $ = knight.$,
+        PopTip = knight.alipay.PopTip,
+        request = knight.alipay.request,
+        Emoji = knight.biz.Emoji;
+        Tip = knight.arale.Tip;
+
+        $(function() {
+
+            // 服务费展示
+            $('.J-fee-trigger').each(function(i, ele) {
+                ele = $(ele);
+                var p = new PopTip({
+                    target: ele,
+                    type: 'text',
+                    closable: false,
+                    content: function() {
+                        var content = ele.next('.content-fee');
+                        return content.html();
+                    },
+                    arrowPosition: 7
+                });
+                ele.hover(function(e) {
+                    p.show();
+                    }, function(e) {
+                    p.hide();
+                });
+            });
+
+            //余额宝分期购
+            $('.J-yeb-fq-trigger').each(function(i, ele) {
+                ele = $(ele);
+                var p = new PopTip({
+                    target: ele,
+                    type: 'text',
+                    closable: false,
+                    content: function() {
+                       return ele.data("tip");
+                    },
+                    arrowPosition: 7
+                });
+                ele.hover(function(e) {
+                    p.show();
+                    }, function(e) {
+                    p.hide();
+                });
+            });
+
+            // 资金明细
+            var canHoverTriggerDetail = $('#J-canHoverTriggerDetail').length > 0;
+
+            $('.J-details-trigger').each(function(i, trigger) {
+                var fundDetailTip = new Tip({
+                  element: '#detaiPoptip',
+                  trigger: trigger,
+                  triggerType: 'hover',
+                  theme: 'white',
+                  direction: 'up',
+                  effect: 'fade',
+                  arrowShift: 25
+                });
+                fundDetailTip.before('show', function() {
+                    var targetUrl = this.activeTrigger.attr('href');
+                    var tipContent = targetUrl ? '<a href="'+ targetUrl +'">点击查看明细</a>' : '点击查看明细';
+                    this.set('content', tipContent);
+                });
+            });
+
+        });
+
+    });
+</script>
+
+<script>
+    seajs.use('consumeprod/record/1.0.8/knight', function(knight) {
+        var $ = knight.$,
+            request = knight.alipay.request,
+            ConfirmBox = knight.arale.ConfirmBox,
+            Xbox = knight.alipay.Xbox,
+            TopTip = knight.biz.TopTip;
+
+        $(function() {
+            var CustomMenu = knight.biz.CustomMenu;
+
+            $('.J-operation-select').each(function(i, ele) {
+                ele = $(ele);
+                var m = new CustomMenu({
+                    select: ele,
+                    trigger: ele.next('.J-operation-menu-trigger'),
+                    align: {
+                        baseXY: ['100%', 0],
+                        selfXY: ['100%', 0]
+                    }
+                }).render();
+
+                function deleteFail(xboxCntSelector) {
+                    var x = new Xbox({
+                        content: $(xboxCntSelector).clone().removeAttr('id'),
+                        classPrefix:"ui-newxbox",
+                        width: 400,
+                        height: 100
+                    });
+                    x.show();
+                    $('a[data-action=no-thanks]', x.element).click(function(e) {
+                        e.preventDefault();
+                        x.hide();
+                    });
+                    x.after('hide', function() {
+                        x.destroy();
+                    });
+                }
+
+                // delete start
+                m.on('action:delete', function(target) {
+                    var that = this;
+                    var aDom = $(target);
+                    var fundChange = aDom.attr('data-fund-change');
+                    var confirmtext = '<p>删除后，您可在回收站还原，或永久删除。</p>';
+                    if (fundChange) {
+                        confirmtext = '<p>此记录含有资金变动，会影响您的金额统计，请慎重考虑。</p>' + confirmtext;
+                    }
+                    ConfirmBox.confirm(confirmtext, '您确定要删除此记录吗？', function() {
+                        var aDom = $(target);
+                        if (!aDom.is('a'))
+                            aDom = aDom.children('a');
+                        request.ajax(aDom.attr('href'), {
+                            dataType: "jsonp",
+                            timeout: 5000,
+                            success: function(data) {
+                                if (data.stat == 'ok') {
+                                    // 提示：成功放入回收站
+                                    TopTip.show('成功放入回收站');
+                                    // 删除成功
+                                    var trDom = that.get('select').parents('tr'),
+                                        trDomRefund = $('#' + trDom.attr('id') + '-refund'),
+                                        domToDelete = trDom.add(trDomRefund);
+
+                                    domToDelete.css('background-color', '#FFA18C').fadeOut(function() {
+                                        $(this).remove();
+
+                                        // 重新计算背景色，一个灰一个白。。
+                                        $('.ui-record-table tr.J-item').each(function(i, v) {
+                                            v = $(v);
+                                            v.add($('#' + v.attr('id') + '-refund'))[i % 2 == 0 ? 'removeClass' : 'addClass']('split');
+                                        });
+                                    });
+
+                                }else {
+                                	if(data.msg){
+                                		$("#J-delete-failure").find(".ui-tipxbox-explain").html(data.msg).prev("h3").removeClass("mt-30").addClass("mt-20");
+                                	}
+                                	deleteFail('#J-delete-failure');
+                                }
+                            },
+                            error: function(e) {
+                                deleteFail('#J-delete-failure');
+                            }
+                        });
+
+                    }, {
+                        afterShow: function() {
+                            this.element.css('height', 'auto');
+                            $(".ui-dialog-close",this.element).attr("seed","consume-delete-close");
+                            $(".ui-dialog-button-orange",this.element).attr("seed","consume-delete-ok");
+                            $(".ui-dialog-button-white",this.element).attr("seed","consume-delete-cancel");
+                        },
+                        closeTpl: '×'
+                    });
+                });
+
+                // delete end
+
+                // edit-memo start
+                m.on('action:edit-memo', function(target) {
+                    var aDom = $(target);
+                    if (!aDom.is('a'))
+                        aDom = aDom.children('a');
+                    var iframeurl = aDom.attr('href');
+                    var x = new Xbox({
+                        width: 520,
+                        height: 430,
+                        isOld: true,
+                        classPrefix:"ui-newxbox",
+                        content: iframeurl
+                    });
+
+
+                    x.after('show', function() {
+                        x.element.find('iframe')[0].on('change:height', function(h) {
+                            x.set('height', h);
+                        });
+                    });
+
+                    x.after('hide', function() {
+                        // 在超过 30 个交易分类的时候会出现管理分类的页面，它在需要刷新的时候会设置__reloadFlag。而编辑备注页面，会自动刷新父页面。
+                        if (window.__reloadFlag)
+                            window.location.reload(true);
+                        //x.destroy();
+                    });
+                    x.show();
+                });
+                // edit-memo end
+
+                // cancel-peer-pay start
+                function cancelPeerPayFail(xboxCntSelector) {
+                    var x = new Xbox({
+                        content: $(xboxCntSelector).clone().removeAttr('id'),
+                        classPrefix:"ui-newxbox",
+                        width: 400
+                    });
+                    x.on('complete:show', function() {
+                        this.element.css('height', 'auto');
+                    });
+                    x.show();
+                    x.after('hide', function() {
+                        x.destroy();
+                    });
+                }
+
+                m.on('action:cancel-peer-pay', function(target) {
+                    var that = this;
+                    ConfirmBox.confirm('确定要取消？', '取消代付', function() {
+                        var aDom = $(target);
+                        request.ajax(aDom.attr('href'), {
+                            dataType: "jsonp",
+                            timeout: 5000,
+                            success: function(data) {
+                                if (data.stat == 'ok') {
+                                    document.location.reload();
+                                } else {
+                                    cancelPeerPayFail('#J-cancel-peer-failure');
+                                }
+                            },
+                            error: function() {
+                                cancelPeerPayFail('#J-cancel-peer-failure');
+                            }
+                        });
+                    }, {
+                        afterShow: function() {
+                            this.element.css('height', 'auto');
+                        },
+                        closeTpl: '×'
+                    });
+                });
+                // cancel-peer-pay end
+
+
+                // close-repay start
+                m.on('action:close-repay', function(target) {
+                    var that = this;
+                    ConfirmBox.confirm('确定要关闭还款？', '关闭还款', function() {
+                            var aDom = $(target);
+                            request.ajax(aDom.attr('href'), {
+                                dataType: "jsonp",
+                                success: function(data) {
+                                    if (data.stat == 'ok') {
+                                        TopTip.show('关闭还款成功');
+                                        setTimeout(function() {
+                                            document.location.reload();
+                                        }, 200);
+                                    } else {
+                                        TopTip.show(msg, {type: 'error'});
+                                    }
+                                },
+                                error: function() {
+                                }
+                            });
+                    }, {
+                        afterShow: function() {
+                            this.element.css('height', 'auto');
+                        },
+                        closeTpl: '×'
+                    });
+                });
+                // close-repay end
+
+            });
+        });
+    });
+</script>
+
+        <style>
+/*处理emoji表情
+因为emoji表情字符串为unicode编码，
+模板层不做长度限制
+首屏渲染前会特别长*/
+
+.other .name {
+    max-width: 130px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    visibility: hidden;
+}
+
+.emoji-icon {
+    width: 12px;
+    height: 12px;
+    top: 1px;
+    position: relative;
+}
+
+.title .opposite {
+    max-width: 370px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    visibility: hidden;
+}
+
+td.emoji-explain {
+    max-width: 150px;
+    visibility: hidden;
+}
+</style>
+
+<script>
+
+// 这个脚本负责渲染首屏 emoji 表情
+// 动态载入的文本需要手动替换
+seajs.use('consumeprod/record/1.0.8/knight', function(knight) {
+    var knightObj = knight || window.knight;
+    var Emoji = knightObj.biz.Emoji;
+    // 新版首页交易方、新版带有链接的标题、旧版交易方、旧版标题 消费收支明细列表
+    Emoji.render('.title .opposite , .title .content , .other .name, .consume-title ');
+
+});
+</script>    <div class="fn-hide">
+
+        <div id="J-delete-failure">
+        <div class="ui-tipxbox">
+            <div class="ui-tipxbox-icon ui-icon-error">error</div>
+            <div class="ui-tipxbox-content">
+                <h3 class="mt-30">删除失败，请稍后再试。</h3>
+                <p class="ui-tipxbox-explain"></p>
+            </div>
+        </div>
+    </div>
+
+        <div id="J-cancel-peer-failure">
+        <div class="ui-tipxbox">
+            <div class="ui-tipxbox-icon ui-icon-error">error</div>
+            <div class="ui-tipxbox-content">
+                <h3 class="mt-30">抱歉，取消代付失败，请稍后再试。</h3>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<div class="amount-bottom">
+            <div class="action-content">
+                    <div class="fn-clear action-other ">
+                <div class="fn-left">
+                                                            <span class="iconTip">
+                        图释:
+                        <em class="ml-5"><i class="record-icon icon-detail"></i>支付明细</em>
+                        <em class="ml-5"><i class="record-icon icon-memo"></i>备注</em>
+                        <em class="ml-5"><i class="record-icon icon-fee"></i>服务费</em>
+                        <em class="ml-5"><i class="record-icon icon-yeb-fq"></i>余额宝分期</em>
+                    </span>
+                </div>
+
+
+    	<div class="page fn-right">
+		<div class="page-link">
+						第 1 页
+							<a class="page-next page-trigger" href="javascript:;" pageNum="2">下一页></a>
+					</div>
+    </div>
+
+                             </div>
+
+        </div>
+
+    </div>
+
+<!-- CMS:电子账单/消费记录/new交易记录调查开始:consumeprod/record/consume_survey.vm --><!-- CMS:电子账单/消费记录/new交易记录调查结束:consumeprod/record/consume_survey.vm -->
+<script>
+
+seajs.use('consumeprod/record/1.0.8/knight', function(knight) {
+    var knightObj = knight || window.knight;
+    var jquery = knightObj.$,
+        URI = knightObj.biz.URI;
+
+    var cache = null;
+
+    // 从 cache 中获取数据，否则请求 ajax
+    function retrieveData(jsonUrl,success, failure) {          //https://consumeprod.alipay.com:443/record/statisticAdvanced.json
+        if (cache) {
+            success(cache);
+        } else {
+
+            jquery.get(jsonUrl, function(returnVal) {
+                if (returnVal.stat == 'ok') {
+                    cache = returnVal.statisticVO;
+                    success(cache);
+                } else {
+                    failure();
+                }
+            });
+        }
+    }
+
+    jquery(function() {
+        jquery(".amount-links").bind("click",function(e){
+            var requestTime = setTimeout(function(){
+	        	jquery(e.target).parents("div").find(".amount-detail").append("<span class='ml-10'>数据量较大，统计需要一定时间，请稍作等待</span>");
+        	},5000);
+            e.preventDefault();
+            jquery(e.target).parents("div.action-content").toggleClass('show-amount');
+            var jsonUrl = jquery(e.target).attr("href");
+            retrieveData(jsonUrl,function(data) {
+                clearTimeout(requestTime);
+                var text = '';
+
+                                text = '已支出' + data.expendCount + '笔共' + data.expendAmount + '元，待支出' + data.payableCount + '笔共' + data.payableAmount +      '元 | 已收入' + data.incomeCount + '笔共' + data.incomeAmount + '元，待收入' + data.receivableCount + '笔共' + data.receivableAmount + '元';
+
+
+
+                             jquery(e.target).parents("div").find(".amount-detail").html(text);
+
+            }, function() {
+                clearTimeout(requestTime);
+            	jquery(e.target).parents("div").find(".amount-detail").html("<p class='ui-tiptext ui-tiptext-error ft-red'><span class='ui-tiptext-icon'></span>系统繁忙，请稍候再试</p>");
+            });
+        });
+
+    });
+});
+
+</script>
+
+
+
+
+                <div coor="faq">
+
+
+
+<div id="faq" class="tip-faq">
+<a class="fn-right J-scroll-to-top" href="#main" seed="faq-scroll-to-top">回到顶部</a>
+
+
+
+
+
+<h3>使用遇到问题？</h3><dl><dt>扣款成功，但还是显示“等待买家付款”？</dt><dd>答：银行账户已扣款，但交易状态仍为【等待买家付款】，请您不要担心，耐心等待10秒钟之后，按键盘上F5键刷新页面，重新刷新后交易状态会变为【买家已付款】。</dd><dt>使用红包、集分宝、商城积分抵扣，为什么交易总额不变？</dt><dd>答：红包、集分宝、商城积分等，仅是帮助您抵扣掉部分交易金额，您实际银行卡或者余额扣款的金额，具体请<a href="https://lab.alipay.com/consume/record/items.htm"target="_blank">点击进入支付宝收支明细查看。</a></dd></dl><p class="tip-faq-link"><a href="http://help.alipay.com/lab/210440-210461/0-210461.htm" target="_blank" seed="faq-morehelp">更多相关帮助</a></p>
+
+<form method="get" action="http://help.alipay.com/lab/search_new_result.htm" name="faqsearch" target="_blank" id="faqsearch">
+<div class="com-search">
+  <span><input name="word" id="word" data-explain="请输入您遇到的问题" value="" class="i-text i-text-s" type="text" /></span>
+  <input name="uisrc" id="uisrc" value="pagefaq" type="hidden" />
+  <input class="btn-fixed" value="搜索" type="submit" seed="faq-search"/>
+</div>
+</form>
+
+</div>
+
+        </div>
+
+    </div>
+    <!--主交易记录区end-->
+
+
+</div>
+<!-- CMS:消费记录产品系统cms/消费记录/电子钱包下载开始:consumeprod/record/mobile_alipay.vm -->							<style type="text/css" media="screen">
+		.mobile-alipay{
+			position: fixed;
+			_position:absolute;
+			bottom: 10px;
+			right:25px;
+		/*width:230px;*/
+			height:125px;
+		}
+		.mobile-alipay .mobile-alipay-trigger{
+			position: absolute;
+			bottom:0;
+			right: 0;
+		}
+		.mobile-alipay-box .content-arrow{
+			position: absolute;
+			bottom: 15px;
+			right: -7px;
+			border-width: 7px 0 7px 7px;
+			border-style: solid;
+			border-color: #FFFFFF #FFFFFF #FFFFFF #000000;
+			line-height:0;
+			-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+			filter:alpha(opacity=70);
+			opacity:0.7;
+		}
+		.mobile-alipay .mobile-alipay-content{
+			width: 210px;
+			padding: 10px;
+			background-color: #000;
+			-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+			filter:alpha(opacity=70);
+			opacity:0.7;
+			color:#dbdbdb;
+			font-family:"Microsoft YaHei";
+			height: 105px;
+		}
+		.mobile-alipay-content .content-title{
+			height: 27px;
+		    overflow: hidden;
+		    line-height: 27px;
+		}
+		.mobile-alipay-content .content-title h4{
+			font-size: 14px;
+		    overflow: hidden;
+		    width: 85px;
+		}
+		.mobile-alipay-content .content-title .intro{
+			width: 120px;
+			overflow: hidden;
+		}
+		.mobile-alipay .mobile-icon{
+			background-image: url("https://i.alipayobjects.com/e/201307/jZmA7MtzD.png");
+			background-repeat: no-repeat;
+			background-position: 0 0;
+			display: inline-block;
+			height: 45px;
+			width: 28px;
+			vertical-align: middle;
+		}
+		.mobile-alipay .mobile-icon:hover{
+			background-position: 0 -60px;
+		}
+		.mobile-alipay .mobile-link{
+			position: absolute;
+			bottom: 10px;
+		    left: 10px;
+		}
+		.mobile-alipay .mobile-imgcode{
+			position: absolute;
+			bottom: 10px;
+			right: 10px;
+		}
+		.mobile-link .mobile-link-btn{
+			display: inline-block;
+			border: 1px solid #d66500;
+			background-color: #f57403;
+			width: 90px;
+			height: 23px;
+			line-height: 23px;
+			text-align: center;
+			color: white;
+			font-size: 12px;
+			font-weight: bold;
+			border-radius: 3px;
+		}
+		.mobile-link .mobile-link-btn:hover{
+			color:white;
+		}
+		.mobile-type-img p.mobile-type{
+			line-height: 21px;
+		}
+		.mobile-type-img p .iconfont{
+			font-size: 18px;
+			margin-right: 5px;
+		}
+	</style>
+	<div id="J-mobile-alipay" class="mobile-alipay">
+		<div class="mobile-alipay-trigger">
+			<a class="mobile-icon J-client-alipay" href="javascript:;" title="支付宝客户端"></a>
+		</div>
+		<div class="mobile-alipay-box" id="mobile-alipay-box" style="display:none;">
+			<div class="content-arrow"></div>
+			<div class="mobile-alipay-content" id="mobile-alipay-content">
+				<div class="content-title fn-clear">
+					<h4 class="fn-left">支付宝客户端</h4>
+					<div class="intro fn-right">随时随地掌握交易记录</div>
+				</div>
+				<div class="fn-clear mobile-type-img">
+					<div class="fn-left">
+						<p class="mobile-type"><i class="iconfont">&#xF02B;</i>Android</p>
+						<p class="mobile-type"><i class="iconfont">&#xF02C;</i>iPhone</p>
+					</div>
+				</div>
+			</div>
+			<div class="mobile-link">
+				<a class="mobile-link-btn" href="https://fun.alipay.com/down/index.htm?cid=5055" target="_blank">立即下载</a>
+			</div>
+			<div class="mobile-imgcode">
+				<img src="https://i.alipayobjects.com/e/201307/jYwP8hFZn.png" class="fn-right" height="74" width="74" />
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		seajs.use(['jquery','arale/popup/1.0.2/popup'], function(jQuery,Popup) {
+			jQuery(function(){
+				new Popup({
+			        trigger: ".J-client-alipay",
+			        element: "#mobile-alipay-box",
+			        align: {
+			            baseXY: [ -242, -80 ]
+					}
+			    });
+				jQuery(".J-client-alipay").click(function(e){
+					e.preventDefault();
+				});
+			});
+		});
+	</script>
+			<!-- CMS:消费记录产品系统cms/消费记录/电子钱包下载结束:consumeprod/record/mobile_alipay.vm -->
+
+<!-- uitpl:/component/tracker.vm -->
+<!-- FD:106:alipay/tracker/tracker.vm:START --><!-- FD:106:alipay/tracker/tracker.vm:785:tracker.schema:全站自动化/性能/敏感信息打点开关:START -->
+
+
+
+<script type="text/javascript">
+window.Smartracker && Smartracker.sow && Smartracker.sow();
+</script>
+
+
+
+
+
+
+<script type="text/javascript">
+
+window.agp_custom_config = {
+  BASE_URL: '//kcart.alipay.com/p.gif',
+  TIMING_ACTION_URL: '//kcart.alipay.com/x.gif'
+}
+
+</script>
+<script charset="utf-8" src="https://as.alipayobjects.com/g/component/timing/1.0.0/index.js"></script>
+
+
+
+
+
+<!-- FD:106:alipay/tracker/sai.vm:START --><script>
+    sensScanConfig={
+        ratio: 0.01,
+        modules: '*',
+        types: '*'
+      };
+</script>
+
+<script src='https://as.alipayobjects.com/g/alipay_security/monitor-sens/1.0.1/monitor-sens.min.js'></script>
+<!-- FD:106:alipay/tracker/sai.vm:END -->
+
+
+
+<!-- FD:106:alipay/tracker/cmsbuffer.vm:START --><!-- FD:106:alipay/tracker/cmsbuffer.vm:997:cmsbuffer.schema:main-CMS全站修复:START -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+try {
+  (function() {
+  var logServer = 'https://magentmng.alipay.com/m.gif';
+  var sample = 0.0001;
+  var url = "https://a.alipayobjects.com/http-watch/1.0.7/index.js";
+
+  // 判断比例
+  if (!!window.addEventListener && Array.prototype.map && Math.random() < sample) {
+    var HEAD = document.head || document.getElementsByTagName('head')[0];
+
+    var spt = document.createElement('script');
+    spt.src = url;
+    HEAD.appendChild(spt);
+
+	setTimeout(function() {
+	  window.httpWatch && window.httpWatch({ sample: 1, appname: 'consumeprod-40-5265', logServer: logServer });
+	}, 1000);
+  }
+  })();
+} catch(e) {}
+</script>
+
+
+
+<script src="https://as.alipayobjects.com/component/console-security-message/1.0.1/index.js"></script>
+<!-- FD:106:alipay/tracker/cmsbuffer.vm:997:cmsbuffer.schema:main-CMS全站修复:END -->
+<!-- FD:106:alipay/tracker/cmsbuffer.vm:END --><!-- FD:106:alipay/tracker/tracker.vm:785:tracker.schema:全站自动化/性能/敏感信息打点开关:END -->
+<!-- FD:106:alipay/tracker/tracker.vm:END -->
+<!-- CMS:全站公共 cms/全站导航/网站改版新旧版切换开始:alipay/nav/versionSwitch.vm -->
+
+
+
+
+
+
+<!-- CMS:全站公共 cms/全站导航/网站改版新旧版切换结束:alipay/nav/versionSwitch.vm -->
+
+<!-- /component/footCommon.vm -->
+
+<!-- CMS:全站公共 cms/全站导航/网站改版新旧版切换开始:alipay/nav/versionSwitch.vm -->
+
+
+
+
+
+
+<!-- CMS:全站公共 cms/全站导航/网站改版新旧版切换结束:alipay/nav/versionSwitch.vm -->
+
+
+
+<style>
+.ui-footer {margin-top: 30px; border-top: 1px solid #cccccc; height: 100px; color:#808080;}
+.ui-footer .ui-separator{font-weight: normal;}
+.ui-footer-ctn {border-top: 1px solid #ffffff;padding-top: 15px;text-align: center;}
+.ui-footer-link a {padding: 0 3px 0 2px;}
+.ui-footer-copyright,.ui-footer-phone {padding-top: 10px;}
+.ui-footer-copyright a,.ui-footer-copyright a:hover {color:#808080;}
+.server{color:#fff;}
+</style>
+
+
+<div class="ui-footer fn-clear" coor="footer">
+
+    <div class="ui-footer-ctn">
+        <!-- CMS:全站公共 cms/foot/links.vm开始:alipay/foot/links.vm --><div class="ui-footer-link">
+      <a href="https://job.alibaba.com/zhaopin/index.htm" target="_blank" seed="foot-1">诚征英才</a>
+           <em class="ui-separator">|</em>
+       <a seed="foot-2" href="https://ab.alipay.com/i/lianxi.htm" title="联系我们" target="_blank">联系我们</a>
+           <em class="ui-separator">|</em>
+       <a seed="foot-3" href="https://global.alipay.com/" title="International Business" target="_blank">International Business</a>
+      </div><!-- CMS:全站公共 cms/foot/links.vm结束:alipay/foot/links.vm -->
+        <div class="ui-footer-copyright">
+            <!-- FD:231:alipay/foot/copyright.vm:START --><!-- FD:231:alipay/foot/copyright.vm:2604:foot/copyright.schema:支付宝copyright:START -->
+<style>
+.copyright,.copyright a,.copyright a:hover{color:#808080;}
+</style>
+<div class="copyright">
+      <a href="https://fun.alipay.com/certificate/jyxkz.htm" target="_blank">ICP证：沪B2-20150087</a>
+  </div>
+<div class="server" id="ServerNum">
+  consumeprod-40-5265 &nbsp; 0b9100151506328751126349759380_0
+</div>
+<!-- FD:231:alipay/foot/copyright.vm:2604:foot/copyright.schema:支付宝copyright:END --><!-- FD:231:alipay/foot/copyright.vm:END -->        </div>
+    </div>
+</div>
+<!-- /component/footCommon.vm -->
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- FD:174:alipay/foot/cliveService.vm:START --><!-- FD:174:alipay/foot/cliveService.vm:1261:cliveService.schema:在线客服配置:START -->
+    <div style="display:none">onlineServer</div>
+    <script type="text/javascript">
+    try {
+        (function () {
+            var loadOnlineServer = function() {
+                seajs.config({
+                    comboExcludes: /\/u\/(js|css|cschannel|ecmng)\//,
+                    alias: {
+						'$': 'jquery/jquery/1.7.2/jquery',
+                        'onlineServerConfig': 'https://os.alipayobjects.com/rmsportal/iwBOQWtuJpTikoO.js',
+                        'portalServerConfig': 'https://os.alipayobjects.com/rmsportal/FiPHyRpEbxSvFkDoPXIQ.js',
+                        'merchantServerConfig': 'https://gw.alipayobjects.com/os/cschannel/QzJFErGBoFZgjWpULljK.js',
+                        'customerServerConfig': 'https://gw.alipayobjects.com/os/cschannel/xiZEeEnYcjBixbyRAbha.js',
+			'koubeiServerConfig': 'https://gw.alipayobjects.com/os/cschannel/aYbyUVaggcvAcFBRwpIF.js',
+			'defaultDataConfig': 'https://a.alipayobjects.com/u/js/201311/1acIoVU1Xx.js',
+                        'onlineServerJS': 'https://gw.alipayobjects.com/os/rmsportal/cRkphpMaUOUQbRslIPoy.js',//云客服匹配
+                        'onlineServerCSS': 'https://os.alipayobjects.com/rmsportal/OgPAgbONDiKhITIVYmdn.css'//云客服通用样式
+                    }
+                });
+                seajs.use(['onlineServerConfig', 'portalServerConfig','merchantServerConfig','koubeiServerConfig', 'customerServerConfig'], function(){
+                    jQuery(function(){
+                        window.OS = OS = {},
+                        OS.server = {
+                            cliveServer: 'https://clive.alipay.com',
+                            cschannelServer: 'https://cschannel.alipay.com',
+                            initiativeServer: 'https://webpushgw.alipay.com',
+			    cshallServer: 'https://cshall.alipay.com'
+                        },
+                        OS.params = {
+                            'uid': '2088512126566040'
+                        };
+			var tradeNos4Clive = '' || '';
+			OS.params.featureStr = "{'tradeNos':'" + tradeNos4Clive + "'}";
+                        OS.config = {
+                            onlineServerURL: OS.server.cliveServer + '/csrouter.htm',
+                            portalServerURL: OS.server.cschannelServer + '/csrouter.htm',
+			    newPortalServerURL: OS.server.cschannelServer + '/newPortal.htm',
+                            webpushFlashURL: 'https://t.alipayobjects.com/tfscom/T1JsNfXoxiXXXXXXXX.swf',
+                            onlineServerIconDefault: 'https://a.alipayobjects.com/u/css/201401/1v9cu1dxaf.css' //在线客服默认图片
+                        };
+                        seajs.use('onlineServerCSS');
+                        seajs.use('onlineServerJS');
+                    });
+                });
+            }
+            var bindOnlineServer = function(func){
+                var w = window;
+                if (w.attachEvent) {
+                    w.attachEvent('onload', func);
+                } else {
+                    w.addEventListener('load', func, false);
+                }
+            };
+            window.initOnlineServer = function() {
+                var w = window, o = 'seajs', d = document;
+                if(w[o]) { return loadOnlineServer() }
+                var s = d.createElement("script")
+                s.id = o + "node"
+                s.charset = "utf-8";
+                s.type = "text/javascript";
+                s.src = "https://a.alipayobjects.com/??seajs/seajs/2.1.1/sea.js,jquery/jquery/1.7.2/jquery.js";
+                var head = d.head || d.getElementsByTagName( "head" )[0] || d.documentElement;
+                head.appendChild(s);
+                s.onload = s.onreadystatechange = function(){ if (!s.readyState || /loaded|complete/.test(s.readyState)) { loadOnlineServer() } };
+            };
+            if (!window.isLazyLoadOnlineService) {
+                bindOnlineServer(initOnlineServer);
+            };
+        })();
+    } catch (e) {
+        window.console && console.log && console.log(e);
+        window.Tracker && Tracker.click('onlineServer-error-init-' + e);
+    }
+    </script>
+<!-- FD:174:alipay/foot/cliveService.vm:1261:cliveService.schema:在线客服配置:END -->
+
+<!-- FD:174:alipay/foot/cliveService.vm:END -->
+<!-- CMS:支付宝全站/全站底部/在线客服流量控制开始:alipay/foot/onlineServiceCtr.vm -->
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <!-- CMS:支付宝全站/全站底部/在线客服流量控制结束:alipay/foot/onlineServiceCtr.vm -->
+
+</body>
+</html>
