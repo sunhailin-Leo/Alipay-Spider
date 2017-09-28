@@ -15,8 +15,7 @@ from lxml import etree
 class BillInfo:
     def __init__(self):
         # 读取测试文件
-        # f = open("./test.html")
-        f = open("C:\\Users\\s\\Desktop\\test2.txt")
+        f = open("./test.html")
         self.result = f.read()
 
     def parser(self):
