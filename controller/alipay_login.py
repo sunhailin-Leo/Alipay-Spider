@@ -5,14 +5,8 @@ Created on 2017年9月25日
 """
 
 # 系统库
-import json
 import random
-import logging
 from urllib.parse import quote_plus
-
-# 工程内部引用
-from model.transfer import *
-from controller.mgo import *
 
 # 第三方库
 import requests
@@ -20,6 +14,9 @@ from lxml import etree
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
+# 工程内部引用
+from db.mgo import *
+from model.transfer import *
 
 # 账单页面URL
 Bill_Url = 'https://consumeprod.alipay.com/record/advanced.htm'

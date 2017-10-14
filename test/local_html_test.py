@@ -4,12 +4,13 @@ Created on 2017年9月26日
 @author: Leo
 """
 
-# 项目内部库
-from controller.mgo import *
-from model.transfer import *
-
 # 第三方库
 from lxml import etree
+
+# 项目内部库
+from db.mgo import *
+from db.sqlite import *
+from model.transfer import *
 
 
 class BillInfo:
@@ -29,6 +30,12 @@ class BillInfo:
         try:
             # 实体类
             transfer = Transfer()
+
+            # 数据库连接(MongoDB和SQLite)
+            # mgo = Mgo(None)
+            sql = SQLite(None)
+            sql.create_db()
+
             for tr in trs:
                 # 交易时间(年月日 + 时分)
                 time_tag = tr.xpath('td[@class="time"]/p/text()')
@@ -66,11 +73,14 @@ class BillInfo:
                 transfer.status = tr.xpath('td[@class="status"]/p[1]/text()')[0]
 
                 # 输出
-                print(transfer)
+                # print(transfer)
 
-                # 写入到数据库
-                # mgo = Mgo(None)
+                # 写入到MongoDB数据库
                 # mgo.insert_data(transfer)
+
+                # 写入到Sqlite数据库
+                sql.insert_data(transfer)
+                sql.close_cursor()
 
         except Exception as err:
             print(err.with_traceback(err))
