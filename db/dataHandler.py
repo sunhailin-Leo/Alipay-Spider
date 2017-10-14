@@ -43,7 +43,6 @@ class DataHandler:
         self.info = self.mgo.client.server_info()
         return self.info
 
-
     # 超时函数
     def timeout(self):
         raise TimeoutError

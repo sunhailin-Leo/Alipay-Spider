@@ -24,14 +24,15 @@ Bill_Url = 'https://consumeprod.alipay.com/record/advanced.htm'
 # Login_Url = 'https://authet15.alipay.com/login/index.htm?goto=' + quote_plus(Bill_Url)
 Login_Url = 'https://auth.alipay.com/login/index.htm?goto=' + quote_plus(Bill_Url)
 
-
 # 登录用户名和密码
-USERNAME = '支付宝账号'
-PASSWORD = '支付宝密码'
+USERNAME = ''
+PASSWORD = ''
 
 # User-agent
-USER_AGENT = ['Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 UBrowser/6.1.3397.16 Safari/537.36',
-             'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36']
+USER_AGENT = ['Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) '
+              'Chrome/50.0.2661.102 UBrowser/6.1.3397.16 Safari/537.36',
+              'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
+              'Chrome/61.0.3163.100 Safari/537.36']
 
 # 自定义 headers
 HEADERS = {
@@ -71,6 +72,9 @@ class AlipayBill(object):
 
         # cookie存储
         self.cookie = {}
+
+        # 交易类别选项
+        self.transfer_option = None
 
     # 查看浏览器(用配置文件进行维护,智能化)
     def choose_browser(self):
@@ -240,7 +244,7 @@ class AlipayBill(object):
             return False
 
     # 翻页查询(参数is_next_page 控制是否有下一页)
-    def turn_page(self):
+    def turn_page(self, option):
         # 先判断是否存在下一页的标签
         is_next_page = self.is_element_exist()
         logger.info("是否存在下一页: " + str(is_next_page))
@@ -263,19 +267,33 @@ class AlipayBill(object):
 
                 # 交易时间(年月日 + 时分)
                 time_tag = tr.xpath('td[@class="time"]/p/text()')
-                transfer.time = str(time_tag[0]).strip() + " " + str(time_tag[1]).strip()
+                time_list = (str(time_tag[0]).strip() + " " + str(time_tag[1]).strip()).split(" ")
+                y_m_d = time_list[0]
+                transfer.year = y_m_d.split(".")[0]
+                transfer.month = y_m_d.split(".")[1]
+                transfer.day = y_m_d.split(".")[2]
+                # 时分
+                h_m = time_list[1]
+                transfer.hour = h_m.split(":")[0]
+                transfer.minutes = h_m.split(":")[1]
 
                 # memo标签(交易备注)
                 try:
-                    transfer.memo = str(tr.xpath('td[@class="memo"]/div[@class="fn-hide content-memo"]/div[@class="fn-clear"]/p[@class="memo-info"]/text()')[0]).strip()
-                except:
+                    transfer.memo = str(tr.xpath('td[@class="memo"]/'
+                                                 'div[@class="fn-hide content-memo"]/'
+                                                 'div[@class="fn-clear"]/'
+                                                 'p[@class="memo-info"]/text()')[0]).strip()
+                except IOError:
                     transfer.memo = ""
 
                 # 交易名称
                 try:
                     transfer.name = str(tr.xpath('td[@class="name"]/p/a/text()')[0]).strip()
-                except:
-                    transfer.name = str(tr.xpath('td[@class="name"]/p/text()')[0]).strip()
+                except IOError:
+                    try:
+                        transfer.name = str(tr.xpath('td[@class="name"]/p/text()')[0]).strip()
+                    except IOError:
+                        transfer.name = ""
 
                 # 交易订单号(商户订单号和交易号)
                 code = tr.xpath('td[@class="tradeNo ft-gray"]/p/text()')
@@ -293,12 +311,12 @@ class AlipayBill(object):
                 if transfer.memo == "":
                     try:
                         transfer.opposite = str(tr.xpath('td[@class="other"]/p[@class="name"]/span/text()')[0]).strip()
-                    except:
+                    except IOError:
                         transfer.opposite = str(tr.xpath('td[@class="other"]/p[@class="name"]/text()')[0]).strip()
                 else:
                     try:
                         transfer.opposite = str(tr.xpath('td[@class="other"]/p[@class="name"]/span/text()')[0]).strip()
-                    except:
+                    except IOError:
                         transfer.opposite = str(tr.xpath('td[@class="other"]/p/text()')[0]).strip()
 
                 # 金额
@@ -306,6 +324,12 @@ class AlipayBill(object):
 
                 # 状态
                 transfer.status = tr.xpath('td[@class="status"]/p[1]/text()')[0]
+
+                # 用户
+                transfer.user = USERNAME
+
+                # 交易类型
+                transfer.tag = option
 
                 # 输出
                 logger.info(transfer)
@@ -324,7 +348,7 @@ class AlipayBill(object):
                 # 点击下一页
                 next_page_btn = self.browser.find_element_by_link_text('下一页')
                 next_page_btn.click()
-                self.turn_page()
+                self.turn_page(option)
             else:
                 return
 
@@ -347,13 +371,14 @@ class AlipayBill(object):
 
             # 起始日期和最终日期的初始化
             begin_date_tag = "beginDate"
-            begin_date = "2014.01.01"
+            begin_date = "2017.07.14"
             end_date_tag = "endDate"
-            end_date = "2017.01.01"
+            end_date = "2017.10.14"
 
             # 设置起始日期
-            remove_readOnly = "document.getElementById('" + begin_date_tag + "').removeAttribute('readonly')"
-            self.browser.execute_script(remove_readOnly)
+            remove_start_time_read_only = "document.getElementById('" + begin_date_tag + "')." \
+                                                                                         "removeAttribute('readonly')"
+            self.browser.execute_script(remove_start_time_read_only)
             ele_begin = self.browser.find_element_by_id(begin_date_tag)
             ele_begin.clear()
             self.slow_input(ele_begin, begin_date)
@@ -362,13 +387,36 @@ class AlipayBill(object):
             time.sleep(random.uniform(1, 2))
 
             # 设置结束日期
-            remove_readOnly = "document.getElementById('" + end_date_tag + "').removeAttribute('readonly')"
-            self.browser.execute_script(remove_readOnly)
+            remove_end_time_read_only = "document.getElementById('" + end_date_tag + "').removeAttribute('readonly')"
+            self.browser.execute_script(remove_end_time_read_only)
             ele_end = self.browser.find_element_by_id(end_date_tag)
             ele_end.clear()
             self.slow_input(ele_end, end_date)
 
             # 智能等待 --- 2
+            time.sleep(random.uniform(1, 2))
+
+            # 选择交易分类
+            self.browser.find_element_by_xpath('//div[@id="J-category-select"]/a[1]').click()
+
+            # 选择交易分类项
+            # 购物 SHOPPING
+            # 线下 OFFLINENETSHOPPING
+            # 还款 CCR
+            # 缴费 PUC_CHARGE
+            if self.transfer_option == "1":
+                self.browser.find_element_by_xpath(
+                    '//ul[@class="ui-select-content"]/li[@data-value="SHOPPING"]').click()
+            elif self.transfer_option == "2":
+                self.browser.find_element_by_xpath(
+                    '//ul[@class="ui-select-content"]/li[@data-value="OFFLINENETSHOPPING"]').click()
+            elif self.transfer_option == "3":
+                self.browser.find_element_by_xpath('//ul[@class="ui-select-content"]/li[@data-value="CCR"]').click()
+            elif self.transfer_option == "4":
+                self.browser.find_element_by_xpath(
+                    '//ul[@class="ui-select-content"]/li[@data-value="PUC_CHARGE"]').click()
+
+            # 智能等待 --- 3
             time.sleep(random.uniform(1, 2))
 
             # 按钮(交易记录点击搜索)
@@ -377,7 +425,7 @@ class AlipayBill(object):
             logger.info(self.browser.current_url)
 
             # 进行页面数据抓取
-            self.turn_page()
+            self.turn_page(option=self.transfer_option)
         else:
             logger.error('抓取出错,登录失败!')
 
@@ -385,36 +433,53 @@ class AlipayBill(object):
     def close_browser(self):
         self.browser.close()
 
+    # 主启动类
+    def main(self):
+        # 检测是否为项目默认值
+        if USERNAME == "支付宝账号" or PASSWORD == "支付宝密码":
+            logger.info("请输入正确的账号和密码!")
+            raise ValueError("Account or password is illegal!")
 
-if __name__ == '__main__':
-    # 检测是否为项目默认值
-    if USERNAME == "支付宝账号" or PASSWORD == "支付宝密码":
-        logger.info("请输入正确的账号和密码!")
-        raise ValueError("Account or password is illegal!")
+        # 选择日志等级(后期改为用参数进行选择)
+        logging.info("请输入日志等级: (1和回车是debug模式, 2是info)")
+        log_level = input()
+        if log_level == "" or log_level == "1":
+            logging.debug("日志等级为: DEBUG")
+            logger.setLevel("DEBUG")
+        elif log_level == "2":
+            logging.debug("日志等级为: INFO")
+            logger.setLevel("INFO")
+        else:
+            raise ValueError("logger choice is illegal!")
 
-    # 选择日志等级(后期改为用参数进行选择)
-    logging.info("请输入日志等级: (1和回车是debug模式, 2是info)")
-    log_level = input()
-    if log_level == "" or log_level == "1":
-        logging.debug("日志等级为: DEBUG")
-        logger.setLevel("DEBUG")
-    elif log_level == "2":
-        logging.debug("日志等级为: INFO")
-        logger.setLevel("INFO")
-    else:
-        raise ValueError("logger choice is illegal!")
+        # 选择爬取交易选项
+        logging.info("请输入交易选项类别: (1和回车是购物类, 2是线下, 3是还款, 4是缴费)")
+        transfer_option = input()
+        if transfer_option == "" or transfer_option == "1":
+            transfer_option = "1"
+        elif transfer_option == "2":
+            transfer_option = "2"
+        elif transfer_option == "3":
+            transfer_option = "3"
+        elif transfer_option == "4":
+            transfer_option = "4"
 
-    # 入口
-    alipay = AlipayBill(HEADERS, USERNAME, PASSWORD)
+        # 赋值交易选择的类别
+        self.transfer_option = transfer_option
 
-    # 选择浏览器
-    alipay.choose_browser()
 
-    # 初始化结束后，开始登陆
-    alipay.get_cookies()
-
-    # 登陆后开始获取数据
-    alipay.get_data()
-
-    # 关闭浏览器
-    alipay.close_browser()
+# if __name__ == '__main__':
+#     # 入口
+#     alipay = AlipayBill(HEADERS, USERNAME, PASSWORD)
+#
+#     # 选择浏览器
+#     alipay.choose_browser()
+#
+#     # 初始化结束后，开始登陆
+#     alipay.get_cookies()
+#
+#     # 登陆后开始获取数据
+#     alipay.get_data()
+#
+#     # 关闭浏览器
+#     alipay.close_browser()
