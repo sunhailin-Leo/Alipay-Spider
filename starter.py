@@ -20,20 +20,29 @@ class Starter(object):
         # 入口
         alipay = AlipayBill(HEADERS, self.USERNAME, self.PASSWORD)
 
+        # 一些选项
+        alipay.main()
+
         # 选择浏览器
         alipay.choose_browser()
 
         # 初始化结束后，开始登陆
-        alipay.get_cookies()
+        is_login = alipay.get_cookies()
 
-        # 登陆后开始获取数据
-        alipay.get_data()
+        # 判断是否登录成功
+        if is_login:
+            # 登陆后开始获取数据
+            alipay.get_data()
 
-        # 关闭浏览器
-        alipay.close_browser()
+            # 关闭浏览器
+            alipay.close_browser()
+        else:
+            # 登录失败关闭浏览器
+            alipay.close_browser()
 
 
 if __name__ == '__main__':
     USERNAME = "379978424@qq.com"
     PASSWORD = "379978424.qq.com"
-    start = Starter(USERNAME, PASSWORD)
+    project_start = Starter(USERNAME, PASSWORD)
+    project_start.parser_spider()

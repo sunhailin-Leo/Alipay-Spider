@@ -22,7 +22,7 @@ class Mgo(object):
         self.db = self.client[self.mgo_conf['database']]
 
         # 集合名
-        self.collection_name = "bill_info"
+        self.collection_name = "bill_info_test"
         self.collection = self.db[self.collection_name]
 
         # 日志类
@@ -31,8 +31,8 @@ class Mgo(object):
         else:
             self.logger = logger
 
-    # 插入数据(非强转)
-    def insert_data_without_eval(self, data):
+    # 插入数据(强转)
+    def insert_data_with_eval(self, data):
         # 需要将Transfer对象用str强转后，在用eval方法转成字典，写入到MongoDB数据库
         try:
             self.collection.insert(eval(str(data)))

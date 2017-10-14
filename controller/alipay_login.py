@@ -19,10 +19,11 @@ from db.mgo import *
 from model.transfer import *
 
 # 账单页面URL
+MY_Url = 'https://my.alipay.com/portal/i.htm'
 Bill_Url = 'https://consumeprod.alipay.com/record/advanced.htm'
 # 登录页面URL(quote_plus的理由是会处理斜杠)
-# Login_Url = 'https://authet15.alipay.com/login/index.htm?goto=' + quote_plus(Bill_Url)
-Login_Url = 'https://auth.alipay.com/login/index.htm?goto=' + quote_plus(Bill_Url)
+Login_Url = 'https://auth.alipay.com/login/index.htm?goto=' + quote_plus(MY_Url)
+# Login_Url = 'https://auth.alipay.com/login/index.htm?goto=' + quote_plus(Bill_Url)
 
 # 登录用户名和密码
 USERNAME = ''
@@ -79,7 +80,7 @@ class AlipayBill(object):
     # 查看浏览器(用配置文件进行维护,智能化)
     def choose_browser(self):
         # 读取自定义selenium配置文件
-        browser_configure = json.load(open("./../conf/selenium.conf"))
+        browser_configure = json.load(open("./conf/selenium.conf"))
         if browser_configure['PhantomJs'] != "" and browser_configure['ChromeDriver'] != "":
             logging.info("请输入浏览器类型: (1和回车是phantomJs, 2是Google Chrome浏览器)")
             browser_choice = input()
@@ -107,14 +108,14 @@ class AlipayBill(object):
         dcap = dict(DesiredCapabilities.PHANTOMJS)
         dcap['phantomjs.page.settings.userAgent'] = random.choice(USER_AGENT)
         self.browser = webdriver.PhantomJS(executable_path=browser_configure['PhantomJs'],
-                                           service_log_path="./../watchDog.log",
+                                           service_log_path="./watchDog.log",
                                            desired_capabilities=dcap,
                                            port=9999)
 
     # 加载Google Chrome
     def load_chrome(self, browser_configure):
         self.browser = webdriver.Chrome(executable_path=browser_configure['ChromeDriver'],
-                                        service_log_path="./../watchDog.log", port=9999)
+                                        service_log_path="./watchDog.log", port=9999)
 
     # 减慢账号密码的输入速度
     @staticmethod
@@ -187,7 +188,8 @@ class AlipayBill(object):
 
             logger.info("准备进入账单页面")
             logger.info("当前页面: " + self.browser.current_url)
-            self.browser.get(Bill_Url)
+            # self.browser.get(Bill_Url)
+            self.browser.get(MY_Url)
 
             # 获取cookies转换成字典
             cookies = self.browser.get_cookies()
@@ -198,12 +200,16 @@ class AlipayBill(object):
                 if 'name' in cookie and 'value' in cookie:
                     cookies_dict[cookie['name']] = cookie['value']
             self.cookie = cookies_dict
-            return
+            return True
+
+        elif "login" in self.browser.current_url:
+            logger.info("没有进入验证码界面,用户名密码错误,请重试")
+            return False
 
         else:
             logger.info("没有进入验证码界面,进入账单页面")
             logger.info("当前页面: " + self.browser.current_url)
-            self.browser.get(Bill_Url)
+            self.browser.get(MY_Url)
 
             # 获取cookies转换成字典
             cookies = self.browser.get_cookies()
@@ -214,7 +220,7 @@ class AlipayBill(object):
                 if 'name' in cookie and 'value' in cookie:
                     cookies_dict[cookie['name']] = cookie['value']
             self.cookie = cookies_dict
-            return
+            return True
 
     # set cookies 到 session
     def set_cookies(self):
@@ -227,12 +233,15 @@ class AlipayBill(object):
     def login_status(self):
         # 添加 cookies
         self.set_cookies()
-        status = self.session.get(Bill_Url, timeout=5, allow_redirects=False).status_code
+        status = self.session.get(MY_Url, timeout=5, allow_redirects=False).status_code
         logging.debug(status)
-        if status == 200:
-            return True
-        else:
-            return False
+        return True
+
+        # 以下注释和以上代码,在爬取中发现404依然能够保留登录状态并成功跳转.
+        # if status == 200:
+        #     return True
+        # else:
+        #     return False
 
     # 该方法用来确认元素是否存在，如果存在返回flag=true，否则返回false
     def is_element_exist(self):
@@ -279,20 +288,17 @@ class AlipayBill(object):
 
                 # memo标签(交易备注)
                 try:
-                    transfer.memo = str(tr.xpath('td[@class="memo"]/'
-                                                 'div[@class="fn-hide content-memo"]/'
-                                                 'div[@class="fn-clear"]/'
-                                                 'p[@class="memo-info"]/text()')[0]).strip()
-                except IOError:
+                    transfer.memo = str(tr.xpath('td[@class="memo"]/div[@class="fn-hide content-memo"]/div[@class="fn-clear"]/p[@class="memo-info"]/text()')[0]).strip()
+                except:
                     transfer.memo = ""
 
                 # 交易名称
                 try:
                     transfer.name = str(tr.xpath('td[@class="name"]/p/a/text()')[0]).strip()
-                except IOError:
+                except:
                     try:
                         transfer.name = str(tr.xpath('td[@class="name"]/p/text()')[0]).strip()
-                    except IOError:
+                    except:
                         transfer.name = ""
 
                 # 交易订单号(商户订单号和交易号)
@@ -311,12 +317,12 @@ class AlipayBill(object):
                 if transfer.memo == "":
                     try:
                         transfer.opposite = str(tr.xpath('td[@class="other"]/p[@class="name"]/span/text()')[0]).strip()
-                    except IOError:
+                    except:
                         transfer.opposite = str(tr.xpath('td[@class="other"]/p[@class="name"]/text()')[0]).strip()
                 else:
                     try:
                         transfer.opposite = str(tr.xpath('td[@class="other"]/p[@class="name"]/span/text()')[0]).strip()
-                    except IOError:
+                    except:
                         transfer.opposite = str(tr.xpath('td[@class="other"]/p/text()')[0]).strip()
 
                 # 金额
@@ -333,7 +339,7 @@ class AlipayBill(object):
 
                 # 输出
                 logger.info(transfer)
-                mgo.insert_data(transfer)
+                mgo.insert_data_with_eval(transfer)
 
             # 判断是否存在下一页的标签
             if is_next_page:
@@ -361,6 +367,34 @@ class AlipayBill(object):
     def get_data(self):
         # 判断登录状态
         status = self.login_status()
+
+        logger.info("当前页面: " + self.browser.current_url)
+
+        # 上一个版本用的是BeautifulSoup进行标签获取,现在改成用lxml获取
+        html = self.browser.page_source
+        selector = etree.HTML(html)
+
+        # 我的页面
+        user_limit = selector.xpath('//div[@class="i-assets-body"]/div/p[1]/text()')[0]
+        user_limit_money = selector.xpath('//div[@class="i-assets-body"]/div/p[1]/span/strong/text()')[0] + \
+                           selector.xpath('//div[@class="i-assets-body"]/div/p[1]/span/strong/span/text()')[0]
+
+        user_all = selector.xpath('//div[@class="i-assets-body"]/div/p[2]/text()')[0].strip().replace(":", "")
+        user_all_money = selector.xpath('//div[@class="i-assets-body"]/div/p[2]/strong/text()')[0] + \
+                         selector.xpath('//div[@class="i-assets-body"]/div/p[2]/strong/span/text()')[0]
+
+        # 用户花呗当前额度和全部额度的字典
+        user_hua_bei_dict = {"user": USERNAME, user_limit: user_limit_money, user_all: user_all_money}
+
+        # 先写入到数据库
+        mgo = Mgo(logger)
+        mgo.insert_data(user_hua_bei_dict, "user_info")
+
+        # 智能等待 --- 6
+        time.sleep(random.uniform(0.2, 0.9))
+
+        # 获取完后跳转到账单页面
+        self.browser.get(Bill_Url)
 
         if status:
             # 下拉框a标签点击事件触发
@@ -466,7 +500,6 @@ class AlipayBill(object):
 
         # 赋值交易选择的类别
         self.transfer_option = transfer_option
-
 
 # if __name__ == '__main__':
 #     # 入口
