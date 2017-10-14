@@ -42,7 +42,7 @@ class Starter(object):
 
 
 if __name__ == '__main__':
-    USERNAME = "379978424@qq.com"
-    PASSWORD = "379978424.qq.com"
+    USERNAME = ""
+    PASSWORD = ""
     project_start = Starter(USERNAME, PASSWORD)
     project_start.parser_spider()
