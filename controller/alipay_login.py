@@ -124,7 +124,7 @@ class AlipayBill(object):
             # 输出一个字符
             ele.send_keys(i)
             # 随机睡眠0到1秒
-            time.sleep(random.uniform(0, 1))
+            time.sleep(random.uniform(0, 0.5))
 
     # 获取cookies
     def get_cookies(self):
@@ -142,7 +142,7 @@ class AlipayBill(object):
         username.clear()
         logger.info('正在输入账号.....')
         self.slow_input(username, self.username)
-        time.sleep(random.uniform(0.5, 1.2))
+        time.sleep(random.uniform(0.4, 0.8))
 
         # 密码输入框
         password = self.browser.find_element_by_id('password_rsainput')
@@ -152,7 +152,7 @@ class AlipayBill(object):
 
         # 登录按钮
         # 隐藏Bug(1)：phantomJs在这里容易卡死...不知道为什么
-        time.sleep(random.uniform(0.5, 1.2))
+        time.sleep(random.uniform(0.3, 0.5))
         self.browser.find_element_by_id('J-login-btn').click()
 
         # 输出当前链接
@@ -384,7 +384,7 @@ class AlipayBill(object):
                          selector.xpath('//div[@class="i-assets-body"]/div/p[2]/strong/span/text()')[0]
 
         # 用户花呗当前额度和全部额度的字典
-        user_hua_bei_dict = {"user": USERNAME, user_limit: user_limit_money, user_all: user_all_money}
+        user_hua_bei_dict = {"user": self.username, user_limit: user_limit_money, user_all: user_all_money}
 
         # 先写入到数据库
         mgo = Mgo(logger)
@@ -394,7 +394,8 @@ class AlipayBill(object):
         time.sleep(random.uniform(0.2, 0.9))
 
         # 获取完后跳转到账单页面
-        self.browser.get(Bill_Url)
+        # self.browser.get(Bill_Url)
+        self.browser.find_element_by_xpath('//ul[@class="global-nav"]/li[@class="global-nav-item "]/a').click()
 
         if status:
             # 下拉框a标签点击事件触发
@@ -428,7 +429,7 @@ class AlipayBill(object):
             self.slow_input(ele_end, end_date)
 
             # 智能等待 --- 2
-            time.sleep(random.uniform(1, 2))
+            time.sleep(random.uniform(0.5, 0.9))
 
             # 选择交易分类
             self.browser.find_element_by_xpath('//div[@id="J-category-select"]/a[1]').click()

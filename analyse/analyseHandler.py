@@ -229,4 +229,4 @@ class Analyse:
     # 写入到MongoDB
     def insert_data(self, data):
         print(data)
-        self.mgo.insert_data(data, "analyse_result")
+        self.mgo.insert_data(data, "analyse_result_test")

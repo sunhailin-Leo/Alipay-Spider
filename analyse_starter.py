@@ -66,8 +66,8 @@ class AnalyseStarter:
         except IOError:
             print("写入出错!")
 
-
-if __name__ == '__main__':
-    USERNAME = "379978424@qq.com"
-    analyse = AnalyseStarter(USERNAME)
-    analyse.core_analyser()
+#
+# if __name__ == '__main__':
+#     USERNAME = "379978424@qq.com"
+#     analyse = AnalyseStarter(USERNAME)
+#     analyse.core_analyser()

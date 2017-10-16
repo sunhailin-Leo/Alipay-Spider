@@ -57,3 +57,12 @@ class Mgo(object):
         except Exception as err:
             # 报错信息
             self.logger.debug("ErrorMsg: " + str(err))
+
+    # 查询数据 -- 1 (临时函数)
+    def find_data_1(self, collection_name):
+        # 获取数据
+        try:
+            return self.db[collection_name]
+        except Exception as err:
+            # 报错信息
+            self.logger.debug("ErrorMsg: " + str(err))
