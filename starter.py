@@ -21,11 +21,8 @@ class Starter(object):
         # 入口
         alipay = AlipayBill(HEADERS, self.USERNAME, self.PASSWORD)
 
-        # 一些选项
+        # 初始化一些选项和浏览器
         alipay.main()
-
-        # 选择浏览器
-        alipay.choose_browser()
 
         # 初始化结束后，开始登陆
         is_login = alipay.get_cookies()
@@ -77,10 +74,13 @@ class Starter(object):
                             col.update({"username": self.USERNAME, "isFetched": False, "errMsg": "抓取失败,用户名密码出错或网络出错"})
                             listening = False
                             break
-            except:
-                print("No DB exists!")
+            except Exception as err:
+                logger.debug("No db exists! " + str(err))
 
 
 if __name__ == '__main__':
     project_start = Starter()
-    project_start.listen_db()
+    project_start.USERNAME = ""
+    project_start.PASSWORD = ""
+    project_start.parser_spider()
+    # project_start.listen_db()

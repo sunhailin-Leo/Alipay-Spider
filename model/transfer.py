@@ -7,17 +7,14 @@ Created on 2017年9月26日
 """
 
 # 系统库
-import time
+import collections
 
 
 class Transfer(object):
     def __init__(self):
-        # 年月日时分秒
-        self._year = None
-        self._month = None
-        self._day = None
-        self._hour = None
-        self._minutes = None
+        # 年月日 时分秒
+        self._ymd = None
+        self._hms = None
         # 交易备注
         self._memo = None
         # 交易名称
@@ -39,78 +36,27 @@ class Transfer(object):
         # 交易标签
         self._transfer_tag = None
 
-    # @property
-    # def time(self):
-    #     return self._time
-    #
-    # @time.setter
-    # def time(self, transfer_time):
-    #     if isinstance(transfer_time, str) and transfer_time is not None:
-    #         # 转换时间戳
-    #         # if transfer_time != "":
-    #         #     timeArray = time.strptime(transfer_time, "%Y.%m.%d %H:%M")
-    #         #     timeStamp_millisecond = int(time.mktime(timeArray)) * 1000
-    #         #     self._time = timeStamp_millisecond
-    #         # else:
-    #         #     self._time = ""
-    #         self._time = transfer_time
-    #     else:
-    #         raise ValueError("Time is illegal!")
+    @property
+    def y_m_d(self):
+        return self._ymd
+
+    @y_m_d.setter
+    def y_m_d(self, ymd):
+        if isinstance(ymd, str):
+            self._ymd = ymd
+        else:
+            raise ValueError("Year month and day are illegal!")
 
     @property
-    def year(self):
-        return self._year
+    def h_m_s(self):
+        return self._hms
 
-    @year.setter
-    def year(self, year):
-        if isinstance(year, str) and year is not None:
-            self._year = year
+    @h_m_s.setter
+    def h_m_s(self, hms):
+        if isinstance(hms, str):
+            self._hms = hms
         else:
-            raise ValueError("Year is illegal!")
-
-    @property
-    def month(self):
-        return self._month
-
-    @month.setter
-    def month(self, month):
-        if isinstance(month, str) and month is not None:
-            self._month = month
-        else:
-            raise ValueError("Year is illegal!")
-
-    @property
-    def day(self):
-        return self._day
-
-    @day.setter
-    def day(self, day):
-        if isinstance(day, str) and day is not None:
-            self._day = day
-        else:
-            raise ValueError("Year is illegal!")
-
-    @property
-    def hour(self):
-        return self._hour
-
-    @hour.setter
-    def hour(self, hour):
-        if isinstance(hour, str) and hour is not None:
-            self._hour = hour
-        else:
-            raise ValueError("Year is illegal!")
-
-    @property
-    def minutes(self):
-        return self._minutes
-
-    @minutes.setter
-    def minutes(self, minutes):
-        if isinstance(minutes, str) and minutes is not None:
-            self._minutes = minutes
-        else:
-            raise ValueError("Year is illegal!")
+            raise ValueError("Hour minutes are illegal!")
 
     @property
     def memo(self):
@@ -223,11 +169,8 @@ class Transfer(object):
             raise ValueError("Tag is illegal!")
 
     def __str__(self):
-        return str({"transfer_year": self._year,
-                    "transfer_month": self._month,
-                    "transfer_day": self._day,
-                    "transfer_hour": self._hour,
-                    "transfer_minutes": self._minutes,
+        return str({"transfer_ymd": self._ymd,
+                    "transfer_hms": self._hms,
                     "transfer_memo": self._memo,
                     "transfer_name": self._name,
                     "transfer_seller_code": self._seller_code,
@@ -236,5 +179,22 @@ class Transfer(object):
                     "transfer_opposite": self._opposite,
                     "transfer_money": self._money,
                     "transfer_status": self._status,
-                    "user": self._user,
+                    "username": self._user,
                     "transfer_tag": self._transfer_tag})
+
+    # 转换成有序字典
+    def get_order_dict(self):
+        or_dict = collections.OrderedDict()
+        or_dict['transfer_ymd'] = self._ymd
+        or_dict['transfer_hms'] = self._hms
+        or_dict['transfer_memo'] = self._memo
+        or_dict['transfer_name'] = self._name
+        or_dict['transfer_seller_code'] = self._seller_code
+        or_dict['transfer_code'] = self._transfer_code
+        or_dict['transfer_serial_num'] = self._serial_num
+        or_dict['transfer_opposite'] = self._opposite
+        or_dict['transfer_money'] = self._money
+        or_dict['transfer_status'] = self._status
+        or_dict['transfer_username'] = self._user
+        or_dict['transfer_tag'] = self._transfer_tag
+        return or_dict

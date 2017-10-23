@@ -21,9 +21,8 @@ class Mgo(object):
         # 数据库名
         self.db = self.client[self.mgo_conf['database']]
 
-        # 集合名
-        self.collection_name = "bill_info_test"
-        self.collection = self.db[self.collection_name]
+        # 集合名json
+        self.collection_name = self.mgo_conf['collection']
 
         # 日志类
         if logger is None:
@@ -31,18 +30,14 @@ class Mgo(object):
         else:
             self.logger = logger
 
-    # 插入数据(强转)
-    def insert_data_with_eval(self, data):
-        # 需要将Transfer对象用str强转后，在用eval方法转成字典，写入到MongoDB数据库
-        try:
-            self.collection.insert(eval(str(data)))
-            self.logger.info("写入成功...")
-        except Exception as err:
-            # 出错报错
-            self.logger.debug("ErrorMsg: " + str(err))
-
-    # 插入数据
+    # 插入数据(目前用来写入用户信息和修改用户信息,可以自定义扩展数据库名称)
     def insert_data(self, data, collection_name):
+        if collection_name == "Bill":
+            collection_name = self.collection_name['Bill']
+        elif collection_name == "User":
+            collection_name = self.collection_name['User']
+        elif collection_name == "Analyse":
+            collection_name = self.collection_name['Analyse']
         try:
             self.db[collection_name].insert(data)
         except Exception as err:
@@ -50,10 +45,13 @@ class Mgo(object):
             self.logger.debug("ErrorMsg: " + str(err))
 
     # 查询数据
-    def find_data(self, collection_name):
+    def find_data(self, collection_name, query):
         # 获取数据
         try:
-            return self.db[collection_name].find({}, {"_id": 0})
+            if query is None or query == "":
+                return self.db[self.collection_name[collection_name]].find({}, {"_id": 0})
+            else:
+                return self.db[self.collection_name[collection_name]].find(query, {"_id": 0})
         except Exception as err:
             # 报错信息
             self.logger.debug("ErrorMsg: " + str(err))
@@ -62,7 +60,7 @@ class Mgo(object):
     def find_data_1(self, collection_name):
         # 获取数据
         try:
-            return self.db[collection_name]
+            return self.db[self.collection_name[collection_name]]
         except Exception as err:
             # 报错信息
             self.logger.debug("ErrorMsg: " + str(err))

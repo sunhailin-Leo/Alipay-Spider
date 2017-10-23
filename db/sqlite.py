@@ -6,6 +6,7 @@ Created on 2017年10月10日
 
 # 系统库
 import json
+import uuid
 import logging
 import sqlite3
 
@@ -53,15 +54,8 @@ class SQLite:
     def insert_data(self, transfer):
         # 构造数据
         data = []
-        data.insert(0, transfer.time)
-        data.insert(1, transfer.memo)
-        data.insert(2, transfer.name)
-        data.insert(3, transfer.seller_code)
-        data.insert(4, transfer.transfer_code)
-        data.insert(5, transfer.serial_num)
-        data.insert(6, transfer.opposite)
-        data.insert(7, transfer.money)
-        data.insert(8, transfer.status)
+        data.insert(0, uuid.uuid1())
+        data.extend(transfer.get_order_dict().values())
 
         # 获取插入数据库的语句:
         sql = self.conf['db_insert_sql']

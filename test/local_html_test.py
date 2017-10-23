@@ -85,16 +85,12 @@ class BillInfo:
                 transfer.status = tr.xpath('td[@class="status"]/p[1]/text()')[0]
 
                 # 输出
-                od = OrderedDict()
-                od.copy()
-                print(od)
-                print(eval(str(transfer)))
 
                 # 写入到MongoDB数据库
-                # mgo.insert_data(transfer)
+                # mgo.insert_data(transfer.get_order_dict().values)
 
                 # 写入到Sqlite数据库
-                # sql.insert_data(transfer)
+                # sql.insert_data(transfer.get_order_dict().values)
                 # sql.close_cursor()
 
         except Exception as err:
