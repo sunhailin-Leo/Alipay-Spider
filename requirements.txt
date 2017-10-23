@@ -1,0 +1,6 @@
+requests==2.18.4
+pandas==0.20.3
+numpy==1.13.3+mkl
+selenium==3.6.0
+pymongo==3.5.1
+lxml==4.0.0
