@@ -42,6 +42,7 @@ python starter.py
 # 如果有数据的情况下可以直接跑分析模块
 python analyse_starter.py
 ```
+
 Ps:
 
 * 此外还需要安装PhantomJs，具体配置请看官网文档[PhantomJs官网]http://phantomjs.org/
