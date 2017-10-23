@@ -32,11 +32,14 @@ Python库列表：
 <h3 id="HowToInstall">安装方式</h3>
 
 ```Shell
-# 需要安装的库, 后期改成使用requirements.txt
+# 需要安装的库
 pip install lxml
 pip install selenium
 pip install requests
 pip install pymongo
+
+# 或使用python requirements.txt进行安装
+pip install -r requirements.txt
 ```
 
 ```Python
