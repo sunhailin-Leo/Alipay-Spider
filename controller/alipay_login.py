@@ -5,7 +5,6 @@ Created on 2017年9月25日
 """
 
 # 系统库
-import time
 import random
 from urllib.parse import quote_plus
 
@@ -17,6 +16,7 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 # 工程内部引用
 from db.mgo import *
+from util.time_util import *
 from model.transfer import *
 
 # 账单页面URL
@@ -41,7 +41,7 @@ HEADERS = {
     'Connection': 'keep-alive'
 }
 
-# 日志基本配置
+# 日志基本配置(同时写入到文件和输出到控制台)
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
                     datefmt='%a, %d %b %Y %H:%M:%S')
@@ -76,8 +76,9 @@ class AlipayBill(object):
 
         # 账单筛选
         # (目前为自定义时间)
-        self.begin_date = "2017.07.14"
-        self.end_date = "2017.10.14"
+        # self.begin_date = "2017.07.14"
+        # self.end_date = "2017.10.14"
+        self.end_date, self.begin_date = TimeUtil.get_front_or_after_month(month=-3)
 
     # 查看浏览器(用配置文件进行维护,智能化)
     def choose_browser(self):
@@ -88,47 +89,45 @@ class AlipayBill(object):
             browser_choice = input()
             # 选择1
             if browser_choice == "" or browser_choice == "1":
-                self.load_phantomjs(browser_configure)
+                self._load_phantomjs(browser_configure)
             # 选择2
             elif browser_choice == "2":
-                self.load_chrome(browser_configure)
+                self._load_chrome(browser_configure)
             # 异常选择
             else:
                 raise ValueError("浏览器类型错误,请重试....")
         else:
             if browser_configure['PhantomJs'] != "":
                 logger.info("加载PhantomJs浏览器...")
-                self.load_phantomjs(browser_configure)
+                self._load_phantomjs(browser_configure)
             elif browser_configure['ChromeDriver'] != "":
                 logger.info("加载Chrome浏览器...")
-                self.load_chrome(browser_configure)
+                self._load_chrome(browser_configure)
             else:
                 raise ValueError("Selenium configuration load failed, please check your configuration!...")
 
     # 加载PhantomJs
-    def load_phantomjs(self, browser_configure):
+    def _load_phantomjs(self, browser_configure):
         dcap = dict(DesiredCapabilities.PHANTOMJS)
         dcap['phantomjs.page.settings.userAgent'] = random.choice(USER_AGENT)
         self.browser = webdriver.PhantomJS(executable_path=browser_configure['PhantomJs'],
                                            service_log_path=browser_configure['LogPath'],
                                            desired_capabilities=dcap,
                                            port=browser_configure['Port'])
-
         # 判断浏览器是否初始化成功
         return self.browser is None if True else False
 
     # 加载Google Chrome
-    def load_chrome(self, browser_configure):
+    def _load_chrome(self, browser_configure):
         self.browser = webdriver.Chrome(executable_path=browser_configure['ChromeDriver'],
                                         service_log_path=browser_configure['LogPath'],
                                         port=browser_configure['Port'])
-
         # 判断浏览器是否初始化成功
         return self.browser is None if True else False
 
     # 减慢账号密码的输入速度
     @staticmethod
-    def slow_input(ele, word):
+    def _slow_input(ele, word):
         for i in word:
             # 输出一个字符
             ele.send_keys(i)
@@ -153,14 +152,16 @@ class AlipayBill(object):
         username = self.browser.find_element_by_id('J-input-user')
         username.clear()
         logger.info('正在输入账号.....')
-        self.slow_input(username, self.username)
+        self._slow_input(username, self.username)
         time.sleep(random.uniform(0.4, 0.8))
 
         # 密码输入框
-        password = self.browser.find_element_by_id('password_rsainput')
+        # xpath: //*[@id="password_container"]/input
+        # password = self.browser.find_element_by_id('password_rsainput') # 官方貌似已经修改了前端页面(2017-11-2发现的)
+        password = self.browser.find_element_by_xpath('//*[@id="password_container"]/input')
         password.clear()
         logger.info('正在输入密码....')
-        self.slow_input(password, self.password)
+        self._slow_input(password, self.password)
 
         # 登录按钮
         # 隐藏Bug(1)：phantomJs在这里容易卡死...不知道为什么
@@ -191,7 +192,7 @@ class AlipayBill(object):
             secure_code.clear()
 
             # 开始输入用户提供的验证码
-            self.slow_input(secure_code, user_input)
+            self._slow_input(secure_code, user_input)
 
             # 验证码界面下一步按钮
             next_button = self.browser.find_element_by_xpath('//*[@id="J-submit"]/input')
@@ -235,16 +236,16 @@ class AlipayBill(object):
             return True
 
     # set cookies 到 session
-    def set_cookies(self):
+    def _set_cookies(self):
         cookie = self.cookie
         self.session.cookies.update(cookie)
         # 输出cookie
         logger.debug(self.session.cookies)
 
     # 判断登录状态
-    def login_status(self):
+    def _login_status(self):
         # 添加 cookies
-        self.set_cookies()
+        self._set_cookies()
         status = self.session.get(MY_Url, timeout=5, allow_redirects=False).status_code
         logging.debug(status)
         return True
@@ -256,7 +257,7 @@ class AlipayBill(object):
         #     return False
 
     # 该方法用来确认元素是否存在，如果存在返回flag=true，否则返回false
-    def is_element_exist(self):
+    def _is_element_exist(self):
         try:
             self.browser.find_element_by_link_text('下一页')
             return True
@@ -265,9 +266,9 @@ class AlipayBill(object):
             return False
 
     # 翻页查询(参数is_next_page 控制是否有下一页)
-    def turn_page(self, option):
+    def _turn_page(self, option):
         # 先判断是否存在下一页的标签
-        is_next_page = self.is_element_exist()
+        is_next_page = self._is_element_exist()
         logger.info("是否存在下一页: " + str(is_next_page))
 
         # 上一个版本用的是BeautifulSoup进行标签获取,现在改成用lxml(Etree) + Xpath获取
@@ -299,19 +300,18 @@ class AlipayBill(object):
                     transfer.memo = str(tr.xpath('td[@class="memo"]/'
                                                  'div[@class="fn-hide content-memo"]/'
                                                  'div[@class="fn-clear"]/p[@class="memo-info"]/text()')[0]).strip()
-                except Exception as err:
-                    logger.debug("Transfer memo exception: " + str(err))
+                except IndexError:
+                    logger.debug("Transfer memo exception: transfer memo is empty!")
                     transfer.memo = ""
 
                 # 交易名称
                 try:
                     transfer.name = str(tr.xpath('td[@class="name"]/p/a/text()')[0]).strip()
-                except Exception as err:
-                    logger.debug("Transfer name exception 1: " + str(err))
+                except IndexError:
                     try:
                         transfer.name = str(tr.xpath('td[@class="name"]/p/text()')[0]).strip()
-                    except Exception as err:
-                        logger.debug("Transfer name exception 2: " + str(err))
+                    except IndexError:
+                        logger.debug("Transfer name exception 2: Transfer name is empty!")
                         transfer.name = ""
 
                 # 交易订单号(商户订单号和交易号)
@@ -330,14 +330,12 @@ class AlipayBill(object):
                 if transfer.memo == "":
                     try:
                         transfer.opposite = str(tr.xpath('td[@class="other"]/p[@class="name"]/span/text()')[0]).strip()
-                    except Exception as err:
-                        logger.debug("Transfer opposite exception 1 " + str(err))
+                    except IndexError:
                         transfer.opposite = str(tr.xpath('td[@class="other"]/p[@class="name"]/text()')[0]).strip()
                 else:
                     try:
                         transfer.opposite = str(tr.xpath('td[@class="other"]/p[@class="name"]/span/text()')[0]).strip()
-                    except Exception as err:
-                        logger.debug("Transfer opposite exception 2 " + str(err))
+                    except IndexError:
                         transfer.opposite = str(tr.xpath('td[@class="other"]/p/text()')[0]).strip()
 
                 # 金额
@@ -371,7 +369,7 @@ class AlipayBill(object):
                 # 点击下一页
                 next_page_btn = self.browser.find_element_by_link_text('下一页')
                 next_page_btn.click()
-                self.turn_page(option)
+                self._turn_page(option)
             else:
                 # 不存在下一页后返回
                 return True
@@ -384,7 +382,7 @@ class AlipayBill(object):
     # 抓取数据
     def get_data(self):
         # 判断登录状态
-        status = self.login_status()
+        status = self._login_status()
 
         logger.info("当前页面: " + self.browser.current_url)
 
@@ -392,22 +390,27 @@ class AlipayBill(object):
         html = self.browser.page_source
         selector = etree.HTML(html)
 
-        # 我的页面
-        user_limit_money = selector.xpath('//div[@class="i-assets-body"]/div/p[1]/span/strong/text()')[0] + \
-                           selector.xpath('//div[@class="i-assets-body"]/div/p[1]/span/strong/span/text()')[0]
+        # 支付宝我的页面(2017-11-2 发现支付宝在个人中心的页面取消显示了花呗额度)
+        # user_limit_money = selector.xpath('//div[@class="i-assets-body"]/div/p[1]/span/strong/text()')[0] + \
+        #                    selector.xpath('//div[@class="i-assets-body"]/div/p[1]/span/strong/span/text()')[0]
 
-        user_all_limit = selector.xpath('//div[@class="i-assets-body"]/div/p[2]/strong/text()')[0] + \
-                         selector.xpath('//div[@class="i-assets-body"]/div/p[2]/strong/span/text()')[0]
+        # //*[@id="J-assets-pcredit"]/div/div/div[2]/div/p[2]/span/strong
+        user_month_bill_info = "".join(
+            str(selector.xpath('//div[@class="amount-des"]/p[2]/span[@class="highlight"]/strong')[0].
+                xpath('string(.)')).split())
 
         # 用户花呗当前额度和全部额度的字典
-        user_hua_bei_dict = collections.OrderedDict()
-        user_hua_bei_dict['user'] = self.username
-        user_hua_bei_dict['user_limit'] = user_limit_money
-        user_hua_bei_dict['user_all_limit'] = user_all_limit
+        # 蚂蚁花呗的英文是Ant check later
+        # issue 1 --- 用户花呗有临时额度的可能,或者用户修改了额度,存在数据库数据的版本问题
+        user_check_later = collections.OrderedDict()
+        user_check_later['user'] = self.username
+        # user_check_later['user_limit'] = user_limit_money
+        user_check_later['user_month_bill_info'] = user_month_bill_info
+        user_check_later['create_time'] = str(round(time.time() * 1000))
 
         # 先写入到数据库
         mgo = Mgo(logger)
-        mgo.insert_data(data=user_hua_bei_dict, collection_name="User")
+        mgo.insert_data(data=user_check_later, collection_name="User")
 
         # 智能等待 --- 6
         time.sleep(random.uniform(0.2, 0.9))
@@ -432,7 +435,7 @@ class AlipayBill(object):
             self.browser.execute_script(remove_start_time_read_only)
             ele_begin = self.browser.find_element_by_id(begin_date_tag)
             ele_begin.clear()
-            self.slow_input(ele_begin, self.begin_date)
+            self._slow_input(ele_begin, self.begin_date)
 
             # 智能等待 --- 1
             time.sleep(random.uniform(1, 2))
@@ -442,7 +445,7 @@ class AlipayBill(object):
             self.browser.execute_script(remove_end_time_read_only)
             ele_end = self.browser.find_element_by_id(end_date_tag)
             ele_end.clear()
-            self.slow_input(ele_end, self.end_date)
+            self._slow_input(ele_end, self.end_date)
 
             # 智能等待 --- 2
             time.sleep(random.uniform(0.5, 0.9))
@@ -451,7 +454,7 @@ class AlipayBill(object):
             self.browser.find_element_by_xpath('//div[@id="J-category-select"]/a[1]').click()
 
             # 选择交易分类项
-            self.bill_option_control()
+            self._bill_option_control()
 
             # 智能等待 --- 3
             time.sleep(random.uniform(1, 2))
@@ -462,7 +465,7 @@ class AlipayBill(object):
             logger.info(self.browser.current_url)
 
             # 进行页面数据抓取
-            self.turn_page(option=self.transfer_option)
+            self._turn_page(option=self.transfer_option)
         else:
             logger.error('抓取出错,登录失败!')
 
@@ -474,7 +477,7 @@ class AlipayBill(object):
             return True
 
     # 确认账单类型选项的下拉选项(目前只有购物,线下,还款,缴费)
-    def bill_option_control(self):
+    def _bill_option_control(self):
         # 购物 SHOPPING
         # 线下 OFFLINENETSHOPPING
         # 还款 CCR
@@ -503,7 +506,7 @@ class AlipayBill(object):
 
     # 主启动类
     def main(self):
-        # 检测是否为项目默认值
+        # 加载用户名密码
         if (self.username == "" or self.username is None) or (self.password == "" or self.password is None):
             logger.info("请输入正确的账号和密码!")
             raise ValueError("Account or password is illegal!")
@@ -524,18 +527,15 @@ class AlipayBill(object):
         logging.info("请输入交易选项类别: (1是购物类, 2是线下, 3是还款, 4是缴费)")
         transfer_option = input()
         if transfer_option == "1":
-            transfer_option = "1"
+            self.transfer_option = transfer_option
         elif transfer_option == "2":
-            transfer_option = "2"
+            self.transfer_option = transfer_option
         elif transfer_option == "3":
-            transfer_option = "3"
+            self.transfer_option = transfer_option
         elif transfer_option == "4":
-            transfer_option = "4"
+            self.transfer_option = transfer_option
         else:
             raise ValueError("Transfer option is illegal!")
-
-        # 赋值交易选择的类别
-        self.transfer_option = transfer_option
 
         # 初始化浏览器
         self.choose_browser()

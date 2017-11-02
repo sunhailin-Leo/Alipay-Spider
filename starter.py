@@ -19,7 +19,7 @@ class Starter(object):
     # 启动核心方法
     def parser_spider(self):
         # 入口
-        alipay = AlipayBill(HEADERS, self.USERNAME, self.PASSWORD)
+        alipay = AlipayBill(headers=HEADERS, uname=self.USERNAME, upwd=self.PASSWORD)
 
         # 初始化一些选项和浏览器
         alipay.main()
@@ -49,7 +49,6 @@ class Starter(object):
         mgo = Mgo(None)
         listening = True
         while listening:
-            print(listening)
             try:
                 col = mgo.find_data_1("user")
                 for spider in col.find({}, {"_id": 0}):
@@ -59,13 +58,10 @@ class Starter(object):
                         self.USERNAME = spider['username']
                         self.PASSWORD = spider['password']
                         if self.parser_spider():
-                            col.update({"username": self.USERNAME},
-                                       {"$set": {"isFetched": True, "errMsg": ""}})
-
+                            col.update({"username": self.USERNAME}, {"$set": {"isFetched": True, "errMsg": ""}})
                             # 数据分析模块
                             analyse = AnalyseStarter(self.USERNAME)
                             analyse.core_analyser()
-
                             # 退出
                             listening = False
                             break

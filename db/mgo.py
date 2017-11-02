@@ -15,7 +15,10 @@ from pymongo import MongoClient
 class Mgo(object):
     def __init__(self, logger):
         # 数据库基本配置
-        self.mgo_conf = json.load(open("./conf/mgo.conf"))
+        try:
+            self.mgo_conf = json.load(open("./../conf/mgo.conf"))
+        except FileNotFoundError:
+            self.mgo_conf = json.load(open("./conf/mgo.conf"))
         self.client = MongoClient(host=self.mgo_conf['address'], port=self.mgo_conf['port'])
 
         # 数据库名
@@ -48,6 +51,7 @@ class Mgo(object):
     def find_data(self, collection_name, query):
         # 获取数据
         try:
+            # query参数, 自定义语句, 默认将_id列隐藏
             if query is None or query == "":
                 return self.db[self.collection_name[collection_name]].find({}, {"_id": 0})
             else:
@@ -56,7 +60,7 @@ class Mgo(object):
             # 报错信息
             self.logger.debug("ErrorMsg: " + str(err))
 
-    # 查询数据 -- 1 (临时函数)
+    # 查询数据 -- 1 (临时函数,返回的是一个数据库对象)
     def find_data_1(self, collection_name):
         # 获取数据
         try:
